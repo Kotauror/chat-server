@@ -7,19 +7,25 @@ import java.net.Socket;
 public class EchoServer {
 
     private ServerSocket serverSocket;
+    private int portNumber;
 
-    public EchoServer(ServerSocket serverSocket) {
+    public EchoServer(ServerSocket serverSocket, int portNumber) {
         this.serverSocket = serverSocket;
-    }
-
-    public void start(int portNumber) {
-        printServerInfo(portNumber);
-        while (true) {
-            run();
-        }
+        this.portNumber = portNumber;
     }
 
     public void run() {
+        printServerInfo(portNumber);
+        while (runTheServer()) {
+            connectWithSocket();
+        }
+    }
+
+    public boolean runTheServer() {
+        return true;
+    }
+
+    private void connectWithSocket() {
         try {
             Socket clientSocket = accept();
             echo(clientSocket);

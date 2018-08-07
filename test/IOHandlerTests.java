@@ -11,13 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class IOHandlerTests {
 
     private ByteArrayOutputStream outputStream;
-    private ByteArrayInputStream inputStream;
     private MockSocket mockClientSocket;
 
     @Before
-    public void setup() throws IOException {
+    public void setup() {
         outputStream = new ByteArrayOutputStream();
-        inputStream = new ByteArrayInputStream("hello".getBytes());
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("hello".getBytes());
         mockClientSocket = new MockSocket(outputStream, inputStream);
     }
 

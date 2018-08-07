@@ -11,11 +11,11 @@ public class MockServerSocket extends ServerSocket {
     public MockServerSocket(ByteArrayInputStream inputStream, ByteArrayOutputStream outputStream) throws IOException {
         this.input = inputStream;
         this.output = outputStream;
-        }
+    }
 
-        @Override
-        public MockSocket accept() {
-            return new MockSocket(this.output, this.input);
-        }
+    @Override
+    public MockSocket accept() {
+        return new MockSocket(this.output, this.input);
+    }
 }
 
