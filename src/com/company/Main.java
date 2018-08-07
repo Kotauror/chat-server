@@ -5,8 +5,9 @@ import java.net.ServerSocket;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(Integer.parseInt(args[0]));
+        int portNumber = Integer.parseInt((args[0]));
+        ServerSocket serverSocket = new ServerSocket(portNumber);
         EchoServer echoServer = new EchoServer(serverSocket);
-        echoServer.run();
+        echoServer.run(portNumber);
     }
 }

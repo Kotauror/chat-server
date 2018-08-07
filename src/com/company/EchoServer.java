@@ -16,7 +16,8 @@ public class EchoServer {
         return this.serverSocket.accept();
     }
 
-    public void run() {
+    public void run(int portNumber) {
+        printServerInfo(portNumber);
         try {
             Socket clientSocket = accept();
             echo(clientSocket);
@@ -32,5 +33,9 @@ public class EchoServer {
         while ((inputLine = iOHandler.readFromSocket()) != null) {
                 iOHandler.printToSocket(inputLine);
         }
+    }
+
+    private void printServerInfo(int portNumber) {
+        System.out.println("Listening on port " + portNumber);
     }
 }

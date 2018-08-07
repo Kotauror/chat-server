@@ -24,7 +24,7 @@ public class EchoServerTest {
 
     @Test
     public void echo() {
-        echoServer.run();
+        echoServer.run(8080);
         assertEquals("test String", outputStream.toString().trim());
     }
 
