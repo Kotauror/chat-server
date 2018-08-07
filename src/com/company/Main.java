@@ -8,6 +8,6 @@ public class Main {
         int portNumber = Integer.parseInt((args[0]));
         ServerSocket serverSocket = new ServerSocket(portNumber);
         EchoServer echoServer = new EchoServer(serverSocket);
-        echoServer.run(portNumber);
+        echoServer.start(portNumber);
     }
 }

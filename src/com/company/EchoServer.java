@@ -12,8 +12,14 @@ public class EchoServer {
         this.serverSocket = serverSocket;
     }
 
-    public void run(int portNumber) {
+    public void start(int portNumber) {
         printServerInfo(portNumber);
+        while (true) {
+            run();
+        }
+    }
+
+    public void run() {
         try {
             Socket clientSocket = accept();
             echo(clientSocket);

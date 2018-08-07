@@ -1,5 +1,4 @@
 import com.company.EchoServer;
-import com.company.IOHandler;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +23,7 @@ public class EchoServerTest {
 
     @Test
     public void echo() {
-        echoServer.run(8080);
+        echoServer.run();
         assertEquals("test String", outputStream.toString().trim());
     }
 
