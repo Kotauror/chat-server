@@ -16,12 +16,12 @@ public class EchoServer {
 
     public void run() {
         printServerInfo(portNumber);
-        while (runTheServer()) {
+        while (runServer()) {
             connectWithSocket();
         }
     }
 
-    public boolean runTheServer() {
+    public boolean runServer() {
         return true;
     }
 

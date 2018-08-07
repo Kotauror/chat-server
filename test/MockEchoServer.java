@@ -19,8 +19,7 @@ public class MockEchoServer extends EchoServer {
         Collections.addAll(this.runServerBooleans, stopServer);
     }
 
-    @Override
-    public boolean runTheServer() {
+    public boolean runServer() {
         Boolean firstBoolean = (Boolean) this.runServerBooleans.get(0);
         this.runServerBooleans.remove(0);
         return firstBoolean;
