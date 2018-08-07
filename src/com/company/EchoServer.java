@@ -8,14 +8,16 @@ public class EchoServer {
 
     private ServerSocket serverSocket;
     private int portNumber;
+    private ServerMessenger serverMessenger;
 
-    public EchoServer(ServerSocket serverSocket, int portNumber) {
+    public EchoServer(ServerSocket serverSocket, int portNumber, ServerMessenger serverMessenger) {
         this.serverSocket = serverSocket;
         this.portNumber = portNumber;
+        this.serverMessenger = serverMessenger;
     }
 
     public void run() {
-        printServerInfo(portNumber);
+        serverMessenger.printServerPort(portNumber);
         while (runServer()) {
             connectWithSocket();
         }
@@ -28,9 +30,10 @@ public class EchoServer {
     private void connectWithSocket() {
         try {
             Socket clientSocket = accept();
+            serverMessenger.informOfNewSocket();
             echo(clientSocket);
         } catch (IOException exception) {
-            informOfException(exception);
+            serverMessenger.informOfException(this.portNumber, exception.getMessage());
         }
     }
 
@@ -44,14 +47,5 @@ public class EchoServer {
         while ((inputLine = iOHandler.readFromSocket()) != null) {
                 iOHandler.printToSocket(inputLine);
         }
-    }
-
-    private void informOfException (IOException exception) {
-        System.out.println("Exception caught when trying to listen on port");
-        System.out.println(exception.getMessage());
-    }
-
-    private void printServerInfo(int portNumber) {
-        System.out.println("Listening on port " + portNumber);
     }
 }

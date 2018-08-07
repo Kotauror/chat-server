@@ -1,3 +1,6 @@
+import Mocks.MockEchoServer;
+import Mocks.MockServerSocket;
+import com.company.ServerMessenger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +20,7 @@ public class EchoServerTest {
         outputStream = new ByteArrayOutputStream();
         ByteArrayInputStream inputStream = new ByteArrayInputStream("test String".getBytes());
         MockServerSocket mockServerSocket = new MockServerSocket(inputStream, outputStream);
-        mockServer = new MockEchoServer(mockServerSocket, 8080);
+        mockServer = new MockEchoServer(mockServerSocket, 8080, new ServerMessenger(System.out));
     }
 
     @Test
