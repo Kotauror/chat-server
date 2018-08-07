@@ -12,7 +12,7 @@ public class EchoServer {
         this.serverSocket = serverSocket;
     }
 
-    public Socket accept() throws IOException {
+    private Socket accept() throws IOException {
         return this.serverSocket.accept();
     }
 
@@ -28,9 +28,10 @@ public class EchoServer {
     }
 
     private static void echo(IOHandler iOHandler) throws IOException {
-        String inputLine;
-        while ((inputLine = iOHandler.readFromSocket()) != null) {
+        String inputLine = iOHandler.readFromSocket();
+        while (inputLine != null) {
             iOHandler.printToSocket(inputLine);
+            echo(iOHandler);
         }
     }
 }

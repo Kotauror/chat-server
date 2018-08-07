@@ -15,8 +15,6 @@ public class MockServerSocket extends ServerSocket {
 
         @Override
         public MockSocket accept() {
-            // ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            // ByteArrayInputStream inputStream = new ByteArrayInputStream("hello".getBytes());
             return new MockSocket(this.output, this.input);
         }
 }

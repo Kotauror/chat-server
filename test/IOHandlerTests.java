@@ -32,7 +32,6 @@ public class IOHandlerTests {
     @Test
     public void readFromSocket() throws IOException {
         IOHandler iOHandler = new IOHandler(mockClientSocket);
-        // iOHandler.readFromSocket();
 
         assertEquals("hello", iOHandler.readFromSocket());
     }
