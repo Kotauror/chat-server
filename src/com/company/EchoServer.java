@@ -12,9 +12,13 @@ public class EchoServer {
         this.serverSocket = serverSocket;
     }
 
+    public Socket accept() throws IOException {
+        return this.serverSocket.accept();
+    }
+
     public void run() {
         try {
-        Socket clientSocket = this.serverSocket.accept();
+        Socket clientSocket = accept();
         IOHandler iOHandler = new IOHandler(clientSocket);
         echo(iOHandler);
         } catch (IOException e) {

@@ -1,5 +1,4 @@
 import com.company.IOHandler;
-import com.company.MockSocket;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,6 +32,7 @@ public class IOHandlerTests {
     @Test
     public void readFromSocket() throws IOException {
         IOHandler iOHandler = new IOHandler(mockClientSocket);
+        // iOHandler.readFromSocket();
 
         assertEquals("hello", iOHandler.readFromSocket());
     }
