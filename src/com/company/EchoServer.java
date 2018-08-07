@@ -18,20 +18,19 @@ public class EchoServer {
 
     public void run() {
         try {
-        Socket clientSocket = accept();
-        IOHandler iOHandler = new IOHandler(clientSocket);
-        echo(iOHandler);
+            Socket clientSocket = accept();
+            echo(clientSocket);
         } catch (IOException e) {
             System.out.println("Exception caught when trying to listen on port");
             System.out.println(e.getMessage());
         }
     }
 
-    private static void echo(IOHandler iOHandler) throws IOException {
-        String inputLine = iOHandler.readFromSocket();
-        while (inputLine != null) {
-            iOHandler.printToSocket(inputLine);
-            echo(iOHandler);
+    private static void echo(Socket clientSocket) throws IOException {
+        IOHandler iOHandler = new IOHandler(clientSocket);
+        String inputLine;
+        while ((inputLine = iOHandler.readFromSocket()) != null) {
+                iOHandler.printToSocket(inputLine);
         }
     }
 }
