@@ -1,7 +1,7 @@
 package Mocks;
 
-import com.company.EchoServer;
-import com.company.ServerMessenger;
+import com.company.Server.EchoServer;
+import com.company.Server.ServerMessenger;
 
 import java.net.ServerSocket;
 import java.util.ArrayList;

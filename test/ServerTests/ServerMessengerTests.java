@@ -1,4 +1,6 @@
-import com.company.ServerMessenger;
+package ServerTests;
+
+import com.company.Server.ServerMessenger;
 import org.junit.Before;
 import org.junit.Test;
 

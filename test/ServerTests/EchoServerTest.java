@@ -1,6 +1,8 @@
+package ServerTests;
+
 import Mocks.MockEchoServer;
 import Mocks.MockServerSocket;
-import com.company.ServerMessenger;
+import com.company.Server.ServerMessenger;
 import org.junit.Before;
 import org.junit.Test;
 

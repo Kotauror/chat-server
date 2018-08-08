@@ -1,5 +1,7 @@
+package ServerTests;
+
 import Mocks.MockSocket;
-import com.company.IOHandler;
+import com.company.Server.IOHandler;
 import org.junit.Before;
 import org.junit.Test;
 
