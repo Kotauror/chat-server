@@ -1,7 +1,6 @@
 package com.company.Client;
 
 import java.io.IOException;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -16,7 +15,7 @@ public class Main {
             EchoClient echoClient = new EchoClient(clientSocket, clientIOHandler);
             echoClient.run();
         } catch (IOException exception) {
-//                .informOfException(this.portNumber, exception.getMessage());
+            System.out.println(exception.getMessage());
         }
     }
 }

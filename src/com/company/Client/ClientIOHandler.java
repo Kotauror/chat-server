@@ -30,4 +30,8 @@ public class ClientIOHandler {
     {
         this.output.println(inputLine);
     }
+
+    public void printToWindow(String content) {
+        System.out.println("Echo: " + content);
+    }
 }

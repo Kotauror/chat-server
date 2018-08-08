@@ -1,12 +1,13 @@
 package ClientTests;
 
+import Mocks.MockClientIOHandler;
 import Mocks.MockSocket;
 import com.company.Client.ClientIOHandler;
 import com.company.Client.EchoClient;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,19 +15,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class EchoClientTests {
 
     private EchoClient echoClient;
-//
-//    @Before
-//    public void setup() throws IOException {
-//        MockClientSocket mockClientSocket = new MockClientSocket(inputStream, outputStream);
-//        ClientIOHandler clientIOHandler = new ClientIOHandler(clientSocket);
-//        echoClient = new EchoClient(clientSocket, clientIOHandler);
-//    }
-//
-//    @Test
-//    public void echoAllowsToReadInutedTest() throws IOException {
-//        echoClient.run();
-//
-//        assertEquals("test String", outputStream.toString().trim());
-//    }
+    private ByteArrayOutputStream outputStream;
+    private MockSocket mockClientSocket;
+    private MockClientIOHandler mockclientIOHandler;
+
+    @Before
+    public void setup() throws IOException {
+        outputStream = new ByteArrayOutputStream();
+        ByteArrayInputStream socketInputStream = new ByteArrayInputStream("".getBytes());
+        mockClientSocket = new MockSocket(outputStream, socketInputStream);
+
+        mockclientIOHandler = new MockClientIOHandler(mockClientSocket, "hehehheheh");
+
+        echoClient = new EchoClient(mockClientSocket, mockclientIOHandler);
+    }
+
+    @Test
+    public void echoToSocket() throws IOException {
+        echoClient.run();
+
+        assertEquals("Echo: hehehheheh", outputStream.toString().trim());
+    }
 
 }

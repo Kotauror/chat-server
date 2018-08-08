@@ -17,7 +17,7 @@ public class EchoClient {
         String clientInput;
         while ((clientInput = clientIOHandler.readFromInput()) != null) {
             clientIOHandler.printToSocket(clientInput);
-            System.out.println("echo: " + clientIOHandler.readFromSocket());
+            clientIOHandler.printToWindow(clientIOHandler.readFromSocket());
         }
     }
 }
