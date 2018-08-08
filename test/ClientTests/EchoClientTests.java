@@ -16,16 +16,14 @@ public class EchoClientTests {
 
     private EchoClient echoClient;
     private ByteArrayOutputStream outputStream;
-    private MockSocket mockClientSocket;
-    private MockClientIOHandler mockclientIOHandler;
 
     @Before
     public void setup() throws IOException {
         outputStream = new ByteArrayOutputStream();
         ByteArrayInputStream socketInputStream = new ByteArrayInputStream("".getBytes());
-        mockClientSocket = new MockSocket(outputStream, socketInputStream);
-
-        mockclientIOHandler = new MockClientIOHandler(mockClientSocket, "hehehheheh");
+        MockSocket mockClientSocket = new MockSocket(outputStream, socketInputStream);
+        String endUserKeyboardInput = "testing Input";
+        MockClientIOHandler mockclientIOHandler = new MockClientIOHandler(mockClientSocket, endUserKeyboardInput);
 
         echoClient = new EchoClient(mockClientSocket, mockclientIOHandler);
     }
@@ -34,7 +32,7 @@ public class EchoClientTests {
     public void echoToSocket() throws IOException {
         echoClient.run();
 
-        assertEquals("Echo: hehehheheh", outputStream.toString().trim());
+        assertEquals("Echo: testing Input", outputStream.toString().trim());
     }
 
 }
