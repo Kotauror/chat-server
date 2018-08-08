@@ -7,17 +7,19 @@ public class EchoClient {
 
     private final Socket clientSocket;
     private final ClientIOHandler clientIOHandler;
+    private final StdIOHandler stdIOHandler;
 
-    public EchoClient(Socket clientSocket, ClientIOHandler clientIOHandler) {
+    public EchoClient(Socket clientSocket, ClientIOHandler clientIOHandler, StdIOHandler stdIOHandler) {
         this.clientSocket = clientSocket;
         this.clientIOHandler = clientIOHandler;
+        this.stdIOHandler = stdIOHandler;
     }
 
     public void run() throws IOException {
         String clientInput;
-        while ((clientInput = clientIOHandler.readFromInput()) != null) {
+        while ((clientInput = stdIOHandler.readFromStdIn()) != null) {
             clientIOHandler.printToSocket(clientInput);
-            clientIOHandler.printToWindow(clientIOHandler.readFromSocket());
+            stdIOHandler.echoToStdOut(clientIOHandler.readFromSocket());
         }
     }
 }

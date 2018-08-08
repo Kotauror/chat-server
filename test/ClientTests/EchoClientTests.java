@@ -30,8 +30,8 @@ public class EchoClientTests {
         PrintStream mockSystemOut = new PrintStream(mockUserOutput);
 
         StdIOHandler stdIOHandler = new StdIOHandler(mockUserInput, mockSystemOut);
-        ClientIOHandler clientIOHandler = new ClientIOHandler(mockClientSocket, stdIOHandler);
-        echoClient = new EchoClient(mockClientSocket, clientIOHandler);
+        ClientIOHandler clientIOHandler = new ClientIOHandler(mockClientSocket);
+        echoClient = new EchoClient(mockClientSocket, clientIOHandler, stdIOHandler);
     }
 
     @Test

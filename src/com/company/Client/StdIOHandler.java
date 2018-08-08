@@ -16,7 +16,7 @@ public class StdIOHandler {
        return stdin.readLine();
     }
 
-    public void printToStdOut(String content) {
+    public void echoToStdOut(String content) {
         this.out.println("Echo: " + content);
     }
 
