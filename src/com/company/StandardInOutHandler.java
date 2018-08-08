@@ -20,4 +20,18 @@ public class StdIOHandler {
         this.out.println("Echo: " + content);
     }
 
+    public void informOfNewSocket() {
+        this.out.println("A new socket has been connected");
+    }
+
+    public void informOfException(int portNumber, String exceptionMessage) {
+        this.out.println("Exception caught when trying to listen on port: " + portNumber);
+        this.out.println(exceptionMessage);
+    }
+
+    public void printServerPort(int portNumber) {
+        this.out.println("Listening on port " + portNumber);
+    }
+
+
 }
