@@ -1,7 +1,7 @@
 package ServerTests;
 
 import Mocks.MockSocket;
-import com.company.Server.IOHandler;
+import com.company.Server.SocketIOHandler;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,7 +11,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class IOHandlerTests {
+public class SocketIOHandlerTests {
 
     private ByteArrayOutputStream outputStream;
     private MockSocket mockClientSocket;
@@ -25,16 +25,16 @@ public class IOHandlerTests {
 
     @Test
     public void printToSocket() throws IOException {
-    IOHandler iOHandler = new IOHandler(mockClientSocket);
-    iOHandler.printToSocket("hello");
+    SocketIOHandler iOHandlerSocket = new SocketIOHandler(mockClientSocket);
+    iOHandlerSocket.printToSocket("hello");
 
     assertEquals("hello", outputStream.toString().trim());
     }
 
     @Test
     public void readFromSocket() throws IOException {
-        IOHandler iOHandler = new IOHandler(mockClientSocket);
+        SocketIOHandler iOHandlerSocket = new SocketIOHandler(mockClientSocket);
 
-        assertEquals("hello", iOHandler.readFromSocket());
+        assertEquals("hello", iOHandlerSocket.readFromSocket());
     }
 }

@@ -1,5 +1,7 @@
 package com.company.Server;
 
+import com.company.Messenger;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,16 +10,16 @@ public class EchoServer {
 
     private ServerSocket serverSocket;
     private int portNumber;
-    private ServerMessenger serverMessenger;
+    private Messenger messenger;
 
-    public EchoServer(ServerSocket serverSocket, int portNumber, ServerMessenger serverMessenger) {
+    public EchoServer(ServerSocket serverSocket, int portNumber, Messenger messenger) {
         this.serverSocket = serverSocket;
         this.portNumber = portNumber;
-        this.serverMessenger = serverMessenger;
+        this.messenger = messenger;
     }
 
     public void run() {
-        serverMessenger.printServerPort(portNumber);
+        messenger.printServerPort(portNumber);
         while (runServer()) {
             connectWithSocket();
         }
@@ -30,10 +32,10 @@ public class EchoServer {
     private void connectWithSocket() {
         try {
             Socket clientSocket = accept();
-            serverMessenger.informOfNewSocket();
+            messenger.informOfNewSocket();
             echo(clientSocket);
         } catch (IOException exception) {
-            serverMessenger.informOfException(this.portNumber, exception.getMessage());
+            messenger.informOfException(this.portNumber, exception.getMessage());
         }
     }
 
@@ -42,10 +44,10 @@ public class EchoServer {
     }
 
     private static void echo(Socket clientSocket) throws IOException {
-        IOHandler iOHandler = new IOHandler(clientSocket);
+        SocketIOHandler iOHandlerSocket = new SocketIOHandler(clientSocket);
         String inputLine;
-        while ((inputLine = iOHandler.readFromSocket()) != null) {
-                iOHandler.printToSocket(inputLine);
+        while ((inputLine = iOHandlerSocket.readFromSocket()) != null) {
+                iOHandlerSocket.printToSocket(inputLine);
         }
     }
 }

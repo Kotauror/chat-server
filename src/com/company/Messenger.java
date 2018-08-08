@@ -1,14 +1,14 @@
-package com.company.Server;
+package com.company;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 
-public class ServerMessenger {
+public class Messenger {
 
     private final PrintStream output;
 
-    public ServerMessenger(PrintStream output) {
+    public Messenger(PrintStream output) {
         this.output = output;
     }
 

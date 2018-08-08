@@ -1,6 +1,6 @@
 package ServerTests;
 
-import com.company.Server.ServerMessenger;
+import com.company.Messenger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,34 +9,34 @@ import java.io.PrintStream;
 
 import static junit.framework.TestCase.assertTrue;
 
-public class ServerMessengerTests {
+public class MessengerTests {
 
-    private ServerMessenger serverMessenger;
+    private Messenger messenger;
     private ByteArrayOutputStream output;
 
     @Before
     public void setup() {
         this.output = new ByteArrayOutputStream();
-        serverMessenger = new ServerMessenger(new PrintStream(output));
+        messenger = new Messenger(new PrintStream(output));
     }
 
     @Test
     public void informOfNewSocket() {
-        serverMessenger.informOfNewSocket();
+        messenger.informOfNewSocket();
 
         assertTrue(output.toString().contains("A new socket has been connected"));
     }
 
     @Test
     public void informOfException() {
-        serverMessenger.informOfException(3030, "Test message");
+        messenger.informOfException(3030, "Test message");
 
         assertTrue(output.toString().contains("Exception caught when trying to listen on port: 3030\nTest message\n"));
     }
 
     @Test
     public void printServerPort() {
-        serverMessenger.printServerPort(3030);
+        messenger.printServerPort(3030);
 
         assertTrue(output.toString().contains("Listening on port 3030"));
     }
