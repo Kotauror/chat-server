@@ -1,6 +1,7 @@
 package com.company.Server;
 
-import com.company.Messenger;
+import com.company.StandardInOutHandler;
+import com.company.SocketIOHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,16 +11,16 @@ public class EchoServer {
 
     private ServerSocket serverSocket;
     private int portNumber;
-    private Messenger messenger;
+    private StandardInOutHandler standardInOutHandler;
 
-    public EchoServer(ServerSocket serverSocket, int portNumber, Messenger messenger) {
+    public EchoServer(ServerSocket serverSocket, int portNumber, StandardInOutHandler standardInOutHandler) {
         this.serverSocket = serverSocket;
         this.portNumber = portNumber;
-        this.messenger = messenger;
+        this.standardInOutHandler = standardInOutHandler;
     }
 
     public void run() {
-        messenger.printServerPort(portNumber);
+        standardInOutHandler.printServerPort(portNumber);
         while (runServer()) {
             connectWithSocket();
         }
@@ -32,10 +33,10 @@ public class EchoServer {
     private void connectWithSocket() {
         try {
             Socket clientSocket = accept();
-            messenger.informOfNewSocket();
+            standardInOutHandler.informOfNewSocket();
             echo(clientSocket);
         } catch (IOException exception) {
-            messenger.informOfException(this.portNumber, exception.getMessage());
+            standardInOutHandler.informOfException(this.portNumber, exception.getMessage());
         }
     }
 
@@ -44,10 +45,10 @@ public class EchoServer {
     }
 
     private static void echo(Socket clientSocket) throws IOException {
-        SocketIOHandler iOHandlerSocket = new SocketIOHandler(clientSocket);
+        SocketIOHandler socketIOHandler = new SocketIOHandler(clientSocket);
         String inputLine;
-        while ((inputLine = iOHandlerSocket.readFromSocket()) != null) {
-                iOHandlerSocket.printToSocket(inputLine);
+        while ((inputLine = socketIOHandler.readFromSocket()) != null) {
+                socketIOHandler.printToSocket(inputLine);
         }
     }
 }

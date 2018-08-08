@@ -1,5 +1,8 @@
 package com.company.Client;
 
+import com.company.SocketIOHandler;
+import com.company.StandardInOutHandler;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -12,10 +15,10 @@ public class Main {
             int portNumber = Integer.parseInt((args[1]));
 
             Socket clientSocket = new Socket(address, portNumber);
-            StdIOHandler stdIOHandler = new StdIOHandler(System.in, System.out);
-            ClientIOHandler clientIOHandler = new ClientIOHandler(clientSocket);
+            SocketIOHandler socketIOHandler = new SocketIOHandler(clientSocket);
+            StandardInOutHandler standardInOutHandler = new StandardInOutHandler(System.in, System.out);
 
-            EchoClient echoClient = new EchoClient(clientSocket, clientIOHandler, stdIOHandler);
+            EchoClient echoClient = new EchoClient(clientSocket, socketIOHandler, standardInOutHandler);
             echoClient.run();
         } catch (IOException exception) {
             System.out.println(exception.getMessage());

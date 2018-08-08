@@ -1,13 +1,13 @@
-package com.company.Client;
+package com.company;
 
 import java.io.*;
 
-public class StdIOHandler {
+public class StandardInOutHandler {
 
     private final PrintStream out;
     private BufferedReader stdin;
 
-    public StdIOHandler(InputStream in, PrintStream out) {
+    public StandardInOutHandler(InputStream in, PrintStream out) {
         this.stdin = new BufferedReader(new InputStreamReader(in));
         this.out = out;
     }
