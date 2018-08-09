@@ -18,14 +18,15 @@ public class EchoServerTest {
     private ByteArrayOutputStream mockOutputStream;
     private MockEchoServer mockServer;
     private ByteArrayOutputStream mockUserOutput;
+    private MockServerSocket mockServerSocket;
 
     @Before
     public void setup() throws IOException {
         mockOutputStream = new ByteArrayOutputStream();
         ByteArrayInputStream mockInputStream = new ByteArrayInputStream("test String".getBytes());
-        MockServerSocket mockServerSocket = new MockServerSocket(mockInputStream, mockOutputStream);
+        mockServerSocket = new MockServerSocket(mockInputStream, mockOutputStream);
 
-        ByteArrayInputStream mockUserInput = new ByteArrayInputStream("".getBytes());
+        ByteArrayInputStream mockUserInput = new ByteArrayInputStream("test String".getBytes());
         mockUserOutput = new ByteArrayOutputStream();
         PrintStream mockSystemOut = new PrintStream(mockUserOutput);
         StandardIOHandler standardIOHandler = new StandardIOHandler(mockUserInput, mockSystemOut);
@@ -38,5 +39,14 @@ public class EchoServerTest {
         mockServer.run();
 
         assertEquals("Listening on port -1", mockUserOutput.toString().trim());
+    }
+
+    @Test
+    public void oneClientTest() throws InterruptedException {
+        mockServer.run();
+
+        Thread.sleep(1000);
+
+        assertEquals("test String", mockOutputStream.toString().trim());
     }
 }
