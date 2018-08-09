@@ -10,7 +10,7 @@ public class Main {
         int portNumber = Integer.parseInt((args[0]));
         ServerSocket serverSocket = new ServerSocket(portNumber);
         StandardInOutHandler standardInOutHandler = new StandardInOutHandler(System.in, System.out);
-        EchoServer echoServer = new EchoServer(serverSocket, portNumber, standardInOutHandler);
+        EchoServer echoServer = new EchoServer(serverSocket, standardInOutHandler);
         echoServer.run();
     }
 }

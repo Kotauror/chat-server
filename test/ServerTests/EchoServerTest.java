@@ -22,7 +22,7 @@ public class EchoServerTest {
         outputStream = new ByteArrayOutputStream();
         ByteArrayInputStream inputStream = new ByteArrayInputStream("test String".getBytes());
         MockServerSocket mockServerSocket = new MockServerSocket(inputStream, outputStream);
-        mockServer = new MockEchoServer(mockServerSocket, 8080, new StandardInOutHandler(System.in, System.out));
+        mockServer = new MockEchoServer(mockServerSocket, new StandardInOutHandler(System.in, System.out));
     }
 
     @Test

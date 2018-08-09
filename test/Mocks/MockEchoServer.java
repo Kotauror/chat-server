@@ -11,8 +11,8 @@ public class MockEchoServer extends EchoServer {
 
     private ArrayList runServerBooleans;
 
-    public MockEchoServer(ServerSocket serverSocket, int portNumber, StandardInOutHandler standardInOutHandler) {
-        super(serverSocket, portNumber, standardInOutHandler);
+    public MockEchoServer(ServerSocket serverSocket, StandardInOutHandler standardInOutHandler) {
+        super(serverSocket, standardInOutHandler);
         this.runServerBooleans = new ArrayList<Boolean>();
         fillBooleans(true, false);
     }

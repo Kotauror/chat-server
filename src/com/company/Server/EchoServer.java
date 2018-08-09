@@ -9,18 +9,18 @@ import java.net.Socket;
 
 public class EchoServer {
 
+    private final int portNumber;
     private ServerSocket serverSocket;
-    private int portNumber;
     private StandardInOutHandler standardInOutHandler;
 
-    public EchoServer(ServerSocket serverSocket, int portNumber, StandardInOutHandler standardInOutHandler) {
+    public EchoServer(ServerSocket serverSocket, StandardInOutHandler standardInOutHandler) {
         this.serverSocket = serverSocket;
-        this.portNumber = portNumber;
         this.standardInOutHandler = standardInOutHandler;
+        this.portNumber = this.serverSocket.getLocalPort();
     }
 
     public void run() {
-        standardInOutHandler.printServerPort(portNumber);
+        standardInOutHandler.printServerPort(this.portNumber);
         while (runServer()) {
             connectWithSocket();
         }
@@ -32,7 +32,7 @@ public class EchoServer {
 
     private void connectWithSocket() {
         try {
-            Socket clientSocket = accept();
+            Socket clientSocket = this.serverSocket.accept();
             standardInOutHandler.informOfNewSocket();
             echo(clientSocket);
         } catch (IOException exception) {
@@ -40,15 +40,11 @@ public class EchoServer {
         }
     }
 
-    private Socket accept() throws IOException {
-        return this.serverSocket.accept();
-    }
-
     private static void echo(Socket clientSocket) throws IOException {
         SocketIOHandler socketIOHandler = new SocketIOHandler(clientSocket);
         String inputLine;
         while ((inputLine = socketIOHandler.readFromSocket()) != null) {
-                socketIOHandler.printToSocket(inputLine);
+            socketIOHandler.printToSocket(inputLine);
         }
     }
 }
