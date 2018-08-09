@@ -1,7 +1,7 @@
 package Mocks;
 
-import com.company.EchoServer;
-import com.company.ServerMessenger;
+import com.company.StandardIOHandler;
+import com.company.Server.EchoServer;
 
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -11,8 +11,8 @@ public class MockEchoServer extends EchoServer {
 
     private ArrayList runServerBooleans;
 
-    public MockEchoServer(ServerSocket serverSocket, int portNumber, ServerMessenger serverMessenger) {
-        super(serverSocket, portNumber, serverMessenger);
+    public MockEchoServer(ServerSocket serverSocket, StandardIOHandler standardIOHandler) {
+        super(serverSocket, standardIOHandler);
         this.runServerBooleans = new ArrayList<Boolean>();
         fillBooleans(true, false);
     }

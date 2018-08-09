@@ -6,12 +6,11 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class IOHandler {
-
+public class SocketIOHandler {
     private PrintWriter output;
     private BufferedReader input;
 
-    public IOHandler(Socket clientSocket) throws IOException {
+    public SocketIOHandler(Socket clientSocket) throws IOException {
         this.output = new PrintWriter(clientSocket.getOutputStream(), true);
         this.input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     }
