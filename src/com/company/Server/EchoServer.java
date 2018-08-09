@@ -1,6 +1,6 @@
 package com.company.Server;
 
-import com.company.StandardInOutHandler;
+import com.company.StandardIOHandler;
 import com.company.SocketIOHandler;
 
 import java.io.IOException;
@@ -11,16 +11,16 @@ public class EchoServer {
 
     private final int portNumber;
     private ServerSocket serverSocket;
-    private StandardInOutHandler standardInOutHandler;
+    private StandardIOHandler standardIOHandler;
 
-    public EchoServer(ServerSocket serverSocket, StandardInOutHandler standardInOutHandler) {
+    public EchoServer(ServerSocket serverSocket, StandardIOHandler standardIOHandler) {
         this.serverSocket = serverSocket;
-        this.standardInOutHandler = standardInOutHandler;
+        this.standardIOHandler = standardIOHandler;
         this.portNumber = this.serverSocket.getLocalPort();
     }
 
     public void run() {
-        standardInOutHandler.printServerPort(this.portNumber);
+        standardIOHandler.printServerPort(this.portNumber);
         while (runServer()) {
             connectWithSocket();
         }
@@ -33,10 +33,10 @@ public class EchoServer {
     private void connectWithSocket() {
         try {
             Socket clientSocket = this.serverSocket.accept();
-            standardInOutHandler.informOfNewSocket();
+            standardIOHandler.informOfNewSocket();
             echo(clientSocket);
         } catch (IOException exception) {
-            standardInOutHandler.informOfException(this.portNumber, exception.getMessage());
+            standardIOHandler.informOfException(this.portNumber, exception.getMessage());
         }
     }
 

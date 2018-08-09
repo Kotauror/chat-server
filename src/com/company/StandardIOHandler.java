@@ -2,12 +2,12 @@ package com.company;
 
 import java.io.*;
 
-public class StandardInOutHandler {
+public class StandardIOHandler {
 
     private final PrintStream out;
     private BufferedReader stdin;
 
-    public StandardInOutHandler(InputStream in, PrintStream out) {
+    public StandardIOHandler(InputStream in, PrintStream out) {
         this.stdin = new BufferedReader(new InputStreamReader(in));
         this.out = out;
     }

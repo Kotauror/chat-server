@@ -1,6 +1,6 @@
 package IOHandlers;
 
-import com.company.StandardInOutHandler;
+import com.company.StandardIOHandler;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,34 +12,34 @@ import java.io.PrintStream;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class StandardInOutHandlerTests {
+public class StandardIOHandlerTests {
 
-    private StandardInOutHandler standardInOutHandler;
+    private StandardIOHandler standardIOHandler;
     private ByteArrayOutputStream output;
 
     @Before
     public void setup() {
         this.output = new ByteArrayOutputStream();
-        standardInOutHandler = new StandardInOutHandler(System.in, new PrintStream(output));
+        standardIOHandler = new StandardIOHandler(System.in, new PrintStream(output));
     }
 
     @Test
     public void informOfNewSocket() {
-        standardInOutHandler.informOfNewSocket();
+        standardIOHandler.informOfNewSocket();
 
         assertTrue(output.toString().contains("A new socket has been connected"));
     }
 
     @Test
     public void informOfException() {
-        standardInOutHandler.informOfException(3030, "Test message");
+        standardIOHandler.informOfException(3030, "Test message");
 
         assertTrue(output.toString().contains("Exception caught when trying to listen on port: 3030\nTest message\n"));
     }
 
     @Test
     public void printServerPort() {
-        standardInOutHandler.printServerPort(3030);
+        standardIOHandler.printServerPort(3030);
 
         assertTrue(output.toString().contains("Listening on port 3030"));
     }
@@ -47,7 +47,7 @@ public class StandardInOutHandlerTests {
     @Test
     public void readsFromConsole() throws IOException {
         ByteArrayInputStream input = new ByteArrayInputStream("Hello".getBytes());
-        StandardInOutHandler standardInOutHandlerWithInput = new StandardInOutHandler(input, new PrintStream(output));
-        assertEquals("Hello", standardInOutHandlerWithInput.readFromStdIn());
+        StandardIOHandler standardIOHandlerWithInput = new StandardIOHandler(input, new PrintStream(output));
+        assertEquals("Hello", standardIOHandlerWithInput.readFromStdIn());
     }
 }

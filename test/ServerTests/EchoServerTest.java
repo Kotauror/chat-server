@@ -2,7 +2,7 @@ package ServerTests;
 
 import Mocks.MockEchoServer;
 import Mocks.MockServerSocket;
-import com.company.StandardInOutHandler;
+import com.company.StandardIOHandler;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ public class EchoServerTest {
         outputStream = new ByteArrayOutputStream();
         ByteArrayInputStream inputStream = new ByteArrayInputStream("test String".getBytes());
         MockServerSocket mockServerSocket = new MockServerSocket(inputStream, outputStream);
-        mockServer = new MockEchoServer(mockServerSocket, new StandardInOutHandler(System.in, System.out));
+        mockServer = new MockEchoServer(mockServerSocket, new StandardIOHandler(System.in, System.out));
     }
 
     @Test

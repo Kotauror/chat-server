@@ -1,7 +1,7 @@
 package com.company.Client;
 
 import com.company.SocketIOHandler;
-import com.company.StandardInOutHandler;
+import com.company.StandardIOHandler;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -16,9 +16,9 @@ public class Main {
 
             Socket clientSocket = new Socket(address, portNumber);
             SocketIOHandler socketIOHandler = new SocketIOHandler(clientSocket);
-            StandardInOutHandler standardInOutHandler = new StandardInOutHandler(System.in, System.out);
+            StandardIOHandler standardIOHandler = new StandardIOHandler(System.in, System.out);
 
-            EchoClient echoClient = new EchoClient(clientSocket, socketIOHandler, standardInOutHandler);
+            EchoClient echoClient = new EchoClient(clientSocket, socketIOHandler, standardIOHandler);
             echoClient.run();
         } catch (IOException exception) {
             System.out.println(exception.getMessage());

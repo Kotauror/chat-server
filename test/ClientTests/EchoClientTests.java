@@ -2,7 +2,7 @@ package ClientTests;
 
 import Mocks.MockSocket;
 import com.company.Client.EchoClient;
-import com.company.StandardInOutHandler;
+import com.company.StandardIOHandler;
 import com.company.SocketIOHandler;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,9 +29,9 @@ public class EchoClientTests {
         mockUserOutput = new ByteArrayOutputStream();
         PrintStream mockSystemOut = new PrintStream(mockUserOutput);
 
-        StandardInOutHandler standardInOutHandler = new StandardInOutHandler(mockUserInput, mockSystemOut);
+        StandardIOHandler standardIOHandler = new StandardIOHandler(mockUserInput, mockSystemOut);
         SocketIOHandler clientSocketIOHandler = new SocketIOHandler(mockClientSocket);
-        echoClient = new EchoClient(mockClientSocket, clientSocketIOHandler, standardInOutHandler);
+        echoClient = new EchoClient(mockClientSocket, clientSocketIOHandler, standardIOHandler);
     }
 
     @Test
