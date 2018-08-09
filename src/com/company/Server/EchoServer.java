@@ -1,7 +1,6 @@
 package com.company.Server;
 
 import com.company.StandardIOHandler;
-import com.company.SocketIOHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -22,7 +21,11 @@ public class EchoServer {
     public void run() {
         standardIOHandler.printServerPort(this.portNumber);
         while (runServer()) {
-            connectWithSocket();
+            try {
+                connectWithClients();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -30,21 +33,14 @@ public class EchoServer {
         return true;
     }
 
-    private void connectWithSocket() {
-        try {
-            Socket clientSocket = this.serverSocket.accept();
-            standardIOHandler.informOfNewSocket();
-            echo(clientSocket);
-        } catch (IOException exception) {
-            standardIOHandler.informOfException(this.portNumber, exception.getMessage());
-        }
+    private void connectWithClients() throws IOException {
+        startNewConnection();
+        standardIOHandler.informOfNewClient();
     }
 
-    private static void echo(Socket clientSocket) throws IOException {
-        SocketIOHandler socketIOHandler = new SocketIOHandler(clientSocket);
-        String inputLine;
-        while ((inputLine = socketIOHandler.readFromSocket()) != null) {
-            socketIOHandler.printToSocket(inputLine);
-        }
+    private void startNewConnection() throws IOException {
+        Socket clientSocket = this.serverSocket.accept();
+        Thread clientThread = new ClientThread(clientSocket);
+        clientThread.start();
     }
 }

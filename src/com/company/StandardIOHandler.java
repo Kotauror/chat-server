@@ -20,7 +20,7 @@ public class StandardIOHandler {
         this.out.println("Echo: " + content);
     }
 
-    public void informOfNewSocket() {
+    public void informOfNewClient() {
         this.out.println("A new socket has been connected");
     }
 
