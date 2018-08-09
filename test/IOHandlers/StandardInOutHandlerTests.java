@@ -1,4 +1,4 @@
-package ServerTests;
+package IOHandlers;
 
 import com.company.StandardInOutHandler;
 import org.junit.Before;

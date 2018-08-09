@@ -1,4 +1,4 @@
-package ServerTests;
+package IOHandlers;
 
 import Mocks.MockSocket;
 import com.company.SocketIOHandler;
@@ -11,7 +11,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SocketSocketIOHandlerTests {
+public class SocketIOHandlerTests {
 
     private ByteArrayOutputStream outputStream;
     private MockSocket mockClientSocket;
