@@ -34,11 +34,6 @@ public class EchoServer {
     }
 
     private void connectWithClients() throws IOException {
-        startNewConnection();
-        standardIOHandler.informOfNewClient();
-    }
-
-    private void startNewConnection() throws IOException {
         Socket clientSocket = this.serverSocket.accept();
         Thread clientThread = new ClientThread(clientSocket);
         clientThread.start();
