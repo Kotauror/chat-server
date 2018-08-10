@@ -25,7 +25,7 @@ public class StandardIOHandlerTests {
 
     @Test
     public void informOfNewSocket() {
-        standardIOHandler.informOfNewSocket();
+        standardIOHandler.informOfNewClient();
 
         assertTrue(output.toString().contains("A new socket has been connected"));
     }

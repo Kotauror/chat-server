@@ -1,19 +1,21 @@
 package com.company.Server;
 
-import com.company.SocketIOHandler;
 import com.company.StandardIOHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.Executor;
 
 public class EchoServer {
 
     private final int portNumber;
     private ServerSocket serverSocket;
     private StandardIOHandler standardIOHandler;
+    private Executor executor;
 
-    public EchoServer(ServerSocket serverSocket, StandardIOHandler standardIOHandler) {
+    public EchoServer(ServerSocket serverSocket, StandardIOHandler standardIOHandler, Executor executor) {
+        this.executor = executor;
         this.serverSocket = serverSocket;
         this.standardIOHandler = standardIOHandler;
         this.portNumber = this.serverSocket.getLocalPort();
@@ -22,7 +24,11 @@ public class EchoServer {
     public void run() {
         standardIOHandler.printServerPort(this.portNumber);
         while (runServer()) {
-            connectWithClients();
+            try {
+                connectWithClients();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -30,21 +36,9 @@ public class EchoServer {
         return true;
     }
 
-    private void connectWithClients() {
-        try {
-            Socket clientSocket = this.serverSocket.accept();
-            standardIOHandler.informOfNewSocket();
-            echo(clientSocket);
-        } catch (IOException exception) {
-            standardIOHandler.informOfException(this.portNumber, exception.getMessage());
-        }
-    }
-
-    private static void echo(Socket clientSocket) throws IOException {
-        SocketIOHandler socketIOHandler = new SocketIOHandler(clientSocket);
-        String inputLine;
-        while ((inputLine = socketIOHandler.readFromSocket()) != null) {
-            socketIOHandler.printToSocket(inputLine);
-        }
+    private void connectWithClients() throws IOException {
+        Socket clientSocket = this.serverSocket.accept();
+        Thread clientThread = new ClientThread(clientSocket);
+        executor.execute(clientThread);
     }
 }
