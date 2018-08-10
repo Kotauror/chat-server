@@ -10,6 +10,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,8 +32,9 @@ public class EchoServerTest {
         mockUserOutput = new ByteArrayOutputStream();
         PrintStream mockSystemOut = new PrintStream(mockUserOutput);
         StandardIOHandler standardIOHandler = new StandardIOHandler(mockUserInput, mockSystemOut);
+        Executor executor = Executors.newFixedThreadPool(2);
 
-        mockServer = new MockEchoServer(mockServerSocket, standardIOHandler);
+        mockServer = new MockEchoServer(mockServerSocket, standardIOHandler, executor);
     }
 
     @Test

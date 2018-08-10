@@ -6,13 +6,14 @@ import com.company.Server.EchoServer;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.Executor;
 
 public class MockEchoServer extends EchoServer {
 
     private ArrayList runServerBooleans;
 
-    public MockEchoServer(ServerSocket serverSocket, StandardIOHandler standardIOHandler) {
-        super(serverSocket, standardIOHandler);
+    public MockEchoServer(ServerSocket serverSocket, StandardIOHandler standardIOHandler, Executor executor) {
+        super(serverSocket, standardIOHandler, executor);
         this.runServerBooleans = new ArrayList<Boolean>();
         fillBooleans(true, false);
     }

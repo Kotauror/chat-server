@@ -26,7 +26,6 @@ public class ClientThread extends Thread {
         SocketIOHandler socketIOHandler = new SocketIOHandler(clientSocket);
         String inputLine;
         while ((inputLine = socketIOHandler.readFromSocket()) != null) {
-            System.out.println(inputLine);
             socketIOHandler.printToSocket(inputLine);
         }
     }
