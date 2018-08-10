@@ -19,6 +19,7 @@ public class EchoClient {
     }
 
     public void run() throws IOException {
+        standardIOHandler.informOfConnectionToServer();
         String clientInput;
         while ((clientInput = standardIOHandler.readFromStdIn()) != null) {
             socketIOHandler.printToSocket(clientInput);

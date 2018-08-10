@@ -45,6 +45,6 @@ public class EchoClientTests {
     public void echosToUsersScreen() throws IOException {
         echoClient.run();
 
-        assertEquals("Echo: hello", mockUserOutput.toString().trim());
+        assertEquals("Connected to a server\nEcho: hello", mockUserOutput.toString().trim());
     }
 }
