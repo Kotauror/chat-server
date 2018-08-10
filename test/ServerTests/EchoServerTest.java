@@ -2,6 +2,7 @@ package ServerTests;
 
 import Mocks.MockEchoServer;
 import Mocks.MockServerSocket;
+import com.company.Server.CurrentThreadExecutor;
 import com.company.StandardIOHandler;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -32,7 +32,8 @@ public class EchoServerTest {
         mockUserOutput = new ByteArrayOutputStream();
         PrintStream mockSystemOut = new PrintStream(mockUserOutput);
         StandardIOHandler standardIOHandler = new StandardIOHandler(mockUserInput, mockSystemOut);
-        Executor executor = Executors.newFixedThreadPool(2);
+
+        Executor executor = new CurrentThreadExecutor();
 
         mockServer = new MockEchoServer(mockServerSocket, standardIOHandler, executor);
     }
@@ -48,7 +49,7 @@ public class EchoServerTest {
     public void oneClientTest() throws InterruptedException {
         mockServer.run();
 
-        Thread.sleep(1000);
+//        Thread.sleep(1000);
 
         assertEquals("test String", mockOutputStream.toString().trim());
     }
