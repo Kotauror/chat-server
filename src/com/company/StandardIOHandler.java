@@ -36,6 +36,4 @@ public class StandardIOHandler {
     public void printServerPort(int portNumber) {
         this.out.println("Listening on port " + portNumber);
     }
-
-
 }
