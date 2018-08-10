@@ -29,9 +29,11 @@ public class StandardIOHandler {
         this.out.println(exceptionMessage);
     }
 
+    public void informOfConnectionToServer() {
+        this.out.println("Connected to a server");
+    }
+
     public void printServerPort(int portNumber) {
         this.out.println("Listening on port " + portNumber);
     }
-
-
 }
