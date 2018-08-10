@@ -5,6 +5,7 @@ import com.company.StandardIOHandler;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.StandardSocketOptions;
 import java.util.concurrent.Executor;
 
 public class EchoServer {
@@ -38,6 +39,7 @@ public class EchoServer {
 
     private void connectWithClients() throws IOException {
         Socket clientSocket = this.serverSocket.accept();
+        this.standardIOHandler.informOfNewClient();
         Thread clientThread = new ClientThread(clientSocket);
         executor.execute(clientThread);
     }

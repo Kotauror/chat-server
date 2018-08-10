@@ -39,10 +39,10 @@ public class EchoServerTest {
     }
 
     @Test
-    public void printsInfoAboutListeningOnPort() {
+    public void printsInfoAboutListeningOnPortAndNewConnection() {
         mockServer.run();
 
-        assertEquals("Listening on port -1", mockUserOutput.toString().trim());
+        assertEquals("Listening on port -1\nA new socket has been connected", mockUserOutput.toString().trim());
     }
 
     @Test

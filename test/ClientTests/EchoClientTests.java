@@ -42,7 +42,7 @@ public class EchoClientTests {
     }
 
     @Test
-    public void echosToUsersScreen() throws IOException {
+    public void informsOfConnectionAndEchosToUsersScreen() throws IOException {
         echoClient.run();
 
         assertEquals("Connected to a server\nEcho: hello", mockUserOutput.toString().trim());
