@@ -6,7 +6,7 @@ public class CurrentThreadExecutor implements Executor {
 
 
     @Override
-    public void execute(Runnable command) {
-        command.run();
+    public void execute(Runnable clientThread) {
+        clientThread.run();
     }
 }

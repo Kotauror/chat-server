@@ -40,6 +40,5 @@ public class EchoServer {
         Socket clientSocket = this.serverSocket.accept();
         Thread clientThread = new ClientThread(clientSocket);
         executor.execute(clientThread);
-//        clientThread.start();
     }
 }
