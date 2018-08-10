@@ -46,7 +46,7 @@ public class EchoServerTest {
     }
 
     @Test
-    public void oneClientTest() throws InterruptedException {
+    public void oneClientTest() {
         mockServer.run();
 
         assertEquals("test String", mockOutputStream.toString().trim());
