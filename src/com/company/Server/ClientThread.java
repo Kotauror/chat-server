@@ -23,25 +23,44 @@ public class ClientThread extends Thread {
         }
     }
 
+    public String getClientName() {
+        return this.clientName;
+    }
+
     private void handleUserInput(Socket clientSocket) throws IOException {
         SocketIOHandler socketIOHandler = new SocketIOHandler(clientSocket);
-        String inputLine;
-        while ((inputLine = socketIOHandler.readFromSocket()) != null) {
-            if (inputLine.substring(0, Math.min(inputLine.length(), 5)).equals("$NAME")) {
-                this.clientName = inputLine.substring(6, inputLine.length()).trim();
-                socketIOHandler.printToSocket("Your name was set to be " + this.clientName);
-                handleUserInput(clientSocket);
-            }  else if (inputLine.substring(0, Math.min(inputLine.length(), 6)).equals("$USERS")) {
-                String userNames = ClientBase.getClientsNames();
-                socketIOHandler.printToSocket(userNames);
-                handleUserInput(clientSocket);
+        String userInput;
+        while ((userInput = socketIOHandler.readFromSocket()) != null) {
+            if (shouldSetName(userInput)) {
+                setClientName(userInput, socketIOHandler);
+            } else if (shouldGetUsers(userInput)) {
+                getUserNames(socketIOHandler);
             } else {
-                socketIOHandler.printToSocket(inputLine);
+                echoWord(userInput, socketIOHandler);
             }
+            handleUserInput(clientSocket);
         }
     }
 
-    public String getClientName() {
-        return this.clientName;
+    private boolean shouldSetName(String userInput) {
+        return userInput.substring(0, Math.min(userInput.length(), 5)).equals("$NAME");
+    }
+
+    private void setClientName(String userInput, SocketIOHandler socketIOHandler) {
+        this.clientName = userInput.substring(6, userInput.length()).trim();
+        socketIOHandler.printToSocket("Your name was set to be " + this.clientName);
+    }
+
+    private boolean shouldGetUsers(String userInput) {
+        return userInput.substring(0, Math.min(userInput.length(), 6)).equals("$USERS");
+    }
+
+    private void getUserNames(SocketIOHandler socketIOHandler) {
+        String userNames = ClientBase.getClientsNames();
+        socketIOHandler.printToSocket("There are following users: " + userNames);
+    }
+
+    private void echoWord(String userInput, SocketIOHandler socketIOHandler) {
+        socketIOHandler.printToSocket(userInput);
     }
 }
