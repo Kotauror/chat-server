@@ -46,8 +46,10 @@ public class ChatClientTests {
     public void informsOfConnectionAndEchosToUsersScreen() throws IOException {
         chatClient.run();
 
-        assertEquals("Connected to a server\nIn order to use the chat, you need to set your user name. " +
-                "Enter $NAME:, type your name after colon.\nhello", mockUserOutput.toString().trim());
+        assertEquals("Connected to a server\n" +
+                "To set your username, type $NAME: and your username after colon\n" +
+                "To see the list od users, type $USERS\n" +
+                "To send a message type $MESSAGE_UserName: message\nhello", mockUserOutput.toString().trim());
     }
 
 

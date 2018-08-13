@@ -38,7 +38,8 @@ public class StandardIOHandler {
     }
 
     public void informOfRules() {
-        this.out.println("In order to use the chat, you need to set your user name. " +
-                "Enter $NAME:, type your name after colon.");
+        this.out.println("To set your username, type $NAME: and your username after colon\n" +
+                "To see the list od users, type $USERS\n" +
+                "To send a message type $MESSAGE_UserName: message");
     }
 }
