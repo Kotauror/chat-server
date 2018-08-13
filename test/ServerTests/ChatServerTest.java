@@ -2,16 +2,14 @@ package ServerTests;
 
 import Mocks.MockChatServer;
 import Mocks.MockServerSocket;
+import Mocks.MockServerSocketTwoClients;
 import Mocks.MockSocket;
 import com.company.Server.CurrentThreadExecutor;
 import com.company.StandardIOHandler;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.concurrent.Executor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -56,17 +54,31 @@ public class ChatServerTest {
     }
 
     @Test
-    public void oneClientSendsMessageToAnother() {
+    public void oneClientSendsMessageToAnother() throws IOException {
+        // Client 1
+        ByteArrayOutputStream mockOutputStreamClientOne = new ByteArrayOutputStream();
+        ByteArrayInputStream mockInputStreamClientOne = new ByteArrayInputStream("$MESSAGE_Thread-2: Hello".getBytes());
+        MockSocket mockSocketOne = new MockSocket(mockOutputStreamClientOne, mockInputStreamClientOne);
+        // Client 2
+        ByteArrayOutputStream mockOutputStreamClientTwo = new ByteArrayOutputStream();
+        ByteArrayInputStream mockInputStreamClientTwo = new ByteArrayInputStream("$MESSAGE_Thread-2: HelloBack".getBytes());
+        MockSocket mockSocketTwo = new MockSocket(mockOutputStreamClientTwo, mockInputStreamClientTwo);
+
+        // ServerSocket
+        MockServerSocketTwoClients mockServerSocketTwoClients = new MockServerSocketTwoClients(new ByteArrayInputStream("$MESSAGE_Thread-2: Hello".getBytes()), mockOutputStream, mockSocketOne, mockSocketTwo);
+
+        ByteArrayInputStream mockUserInput = new ByteArrayInputStream("$MESSAGE_Thread-2: Hello".getBytes());
+        mockUserOutput = new ByteArrayOutputStream();
+        PrintStream mockSystemOut = new PrintStream(mockUserOutput);
+        StandardIOHandler standardIOHandler = new StandardIOHandler(mockUserInput, mockSystemOut);
+
+        Executor executor = new CurrentThreadExecutor();
+
+        mockServer = new MockChatServer(mockServerSocketTwoClients, standardIOHandler, executor);
+
         mockServer.run();
 
-        assertEquals("test String", mockOutputStream.toString().trim());
+        assertEquals("$MESSAGE_Thread-2: Hello", new BufferedReader(new InputStreamReader(mockSocketTwo.getInputStream())).readLine());
+
     }
-
-
-
-
-
-
-
-
 }
