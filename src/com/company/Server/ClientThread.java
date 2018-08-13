@@ -12,6 +12,7 @@ public class ClientThread extends Thread {
 
     public ClientThread(Socket clientSocket) {
         this.clientSocket = clientSocket;
+        this.clientName = this.getName();
     }
 
     @Override

@@ -54,4 +54,19 @@ public class ChatServerTest {
 
         assertEquals("test String", mockOutputStream.toString().trim());
     }
+
+    @Test
+    public void oneClientSendsMessageToAnother() {
+        mockServer.run();
+
+        assertEquals("test String", mockOutputStream.toString().trim());
+    }
+
+
+
+
+
+
+
+
 }

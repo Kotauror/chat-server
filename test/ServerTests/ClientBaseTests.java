@@ -27,7 +27,7 @@ public class ClientBaseTests {
         MockClientThread mockClientThread = new MockClientThread(new Socket());
         ClientBase.addClient(mockClientThread);
 
-        assertEquals("null null Test name ", ClientBase.getClientsNames());
+        assertEquals("Thread-4 Thread-5 Thread-6 Test name ", ClientBase.getClientsNames());
     }
 
 
