@@ -6,13 +6,13 @@ import com.company.StandardIOHandler;
 import java.io.IOException;
 import java.net.Socket;
 
-public class EchoClient {
+public class ChatClient {
 
     private final Socket clientSocket;
     private final SocketIOHandler socketIOHandler;
     private final StandardIOHandler standardIOHandler;
 
-    public EchoClient(Socket clientSocket, SocketIOHandler socketIOHandler, StandardIOHandler standardIOHandler) {
+    public ChatClient(Socket clientSocket, SocketIOHandler socketIOHandler, StandardIOHandler standardIOHandler) {
         this.clientSocket = clientSocket;
         this.socketIOHandler = socketIOHandler;
         this.standardIOHandler = standardIOHandler;

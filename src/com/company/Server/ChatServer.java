@@ -7,14 +7,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.Executor;
 
-public class EchoServer {
+public class ChatServer {
 
     private final int portNumber;
     private ServerSocket serverSocket;
     private StandardIOHandler standardIOHandler;
     private Executor executor;
 
-    public EchoServer(ServerSocket serverSocket, StandardIOHandler standardIOHandler, Executor executor) {
+    public ChatServer(ServerSocket serverSocket, StandardIOHandler standardIOHandler, Executor executor) {
         this.executor = executor;
         this.serverSocket = serverSocket;
         this.standardIOHandler = standardIOHandler;

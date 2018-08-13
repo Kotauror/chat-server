@@ -1,7 +1,7 @@
 package ClientTests;
 
 import Mocks.MockSocket;
-import com.company.Client.EchoClient;
+import com.company.Client.ChatClient;
 import com.company.StandardIOHandler;
 import com.company.SocketIOHandler;
 import org.junit.Before;
@@ -11,9 +11,9 @@ import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EchoClientTests {
+public class ChatClientTests {
 
-    private EchoClient echoClient;
+    private ChatClient chatClient;
     private ByteArrayOutputStream mockSocketOutputStream;
     private ByteArrayOutputStream mockUserOutput;
     private ByteArrayInputStream mockSocketInputStream;
@@ -31,19 +31,19 @@ public class EchoClientTests {
 
         StandardIOHandler standardIOHandler = new StandardIOHandler(mockUserInput, mockSystemOut);
         SocketIOHandler clientSocketIOHandler = new SocketIOHandler(mockClientSocket);
-        echoClient = new EchoClient(mockClientSocket, clientSocketIOHandler, standardIOHandler);
+        chatClient = new ChatClient(mockClientSocket, clientSocketIOHandler, standardIOHandler);
     }
 
     @Test
     public void echosToSocket() throws IOException {
-        echoClient.run();
+        chatClient.run();
 
         assertEquals("hello", mockSocketOutputStream.toString().trim());
     }
 
     @Test
     public void informsOfConnectionAndEchosToUsersScreen() throws IOException {
-        echoClient.run();
+        chatClient.run();
 
         assertEquals("Connected to a server\nEcho: hello", mockUserOutput.toString().trim());
     }

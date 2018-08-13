@@ -1,6 +1,6 @@
 package ServerTests;
 
-import Mocks.MockEchoServer;
+import Mocks.MockChatServer;
 import Mocks.MockServerSocket;
 import Mocks.MockSocket;
 import com.company.Server.CurrentThreadExecutor;
@@ -16,10 +16,10 @@ import java.util.concurrent.Executor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EchoServerTest {
+public class ChatServerTest {
 
     private ByteArrayOutputStream mockOutputStream;
-    private MockEchoServer mockServer;
+    private MockChatServer mockServer;
     private ByteArrayOutputStream mockUserOutput;
     private MockServerSocket mockServerSocket;
 
@@ -38,7 +38,7 @@ public class EchoServerTest {
 
         Executor executor = new CurrentThreadExecutor();
 
-        mockServer = new MockEchoServer(mockServerSocket, standardIOHandler, executor);
+        mockServer = new MockChatServer(mockServerSocket, standardIOHandler, executor);
     }
 
     @Test
