@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ChatClientTests {
 
@@ -45,6 +46,11 @@ public class ChatClientTests {
     public void informsOfConnectionAndEchosToUsersScreen() throws IOException {
         chatClient.run();
 
-        assertEquals("Connected to a server\nEcho: hello", mockUserOutput.toString().trim());
+        assertEquals("Connected to a server\nIn order to use the chat, you need to set your user name. " +
+                "Enter $NAME:, type your name after colon.\nEcho: hello", mockUserOutput.toString().trim());
     }
+
+
+
+
 }

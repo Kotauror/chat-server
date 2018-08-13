@@ -20,6 +20,7 @@ public class ChatClient {
 
     public void run() throws IOException {
         standardIOHandler.informOfConnectionToServer();
+        standardIOHandler.informOfRules();
         String clientInput;
         while ((clientInput = standardIOHandler.readFromStdIn()) != null) {
             socketIOHandler.printToSocket(clientInput);

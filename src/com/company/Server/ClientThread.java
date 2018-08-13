@@ -8,6 +8,7 @@ import java.net.Socket;
 public class ClientThread implements Runnable {
 
     private final Socket clientSocket;
+    private String clientName;
 
     public ClientThread(Socket clientSocket) {
         this.clientSocket = clientSocket;
@@ -16,17 +17,27 @@ public class ClientThread implements Runnable {
     @Override
     public void run() {
         try {
-            echo(clientSocket);
+            handleUserInput(clientSocket);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void echo(Socket clientSocket) throws IOException {
+    private void handleUserInput(Socket clientSocket) throws IOException {
         SocketIOHandler socketIOHandler = new SocketIOHandler(clientSocket);
         String inputLine;
         while ((inputLine = socketIOHandler.readFromSocket()) != null) {
-            socketIOHandler.printToSocket(inputLine);
+            if (inputLine.substring(0, Math.min(inputLine.length(), 5)).equals("$NAME")) {
+                this.clientName = inputLine.substring(6, inputLine.length()).trim();
+                socketIOHandler.printToSocket("Your name was set to be " + this.clientName);
+                run();
+            } else {
+                socketIOHandler.printToSocket(inputLine);
+            }
         }
+    }
+
+    public String getClientName() {
+        return this.clientName;
     }
 }
