@@ -47,7 +47,7 @@ public class ChatClientTests {
         chatClient.run();
 
         assertEquals("Connected to a server\nIn order to use the chat, you need to set your user name. " +
-                "Enter $NAME:, type your name after colon.\nEcho: hello", mockUserOutput.toString().trim());
+                "Enter $NAME:, type your name after colon.\nhello", mockUserOutput.toString().trim());
     }
 
 

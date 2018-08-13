@@ -17,7 +17,7 @@ public class StandardIOHandler {
     }
 
     public void echoToStdOut(String content) {
-        this.out.println("Echo: " + content);
+        this.out.println(content);
     }
 
     public void informOfNewClient() {
