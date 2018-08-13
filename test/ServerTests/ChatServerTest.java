@@ -54,4 +54,11 @@ public class ChatServerTest {
 
         assertEquals("test String", mockOutputStream.toString().trim());
     }
+
+    @Test
+    public void runnableIsAddedToConnectedClients() {
+        mockServer.run();
+
+        assertEquals(1, mockServer.getConnectedClients().size());
+    }
 }
