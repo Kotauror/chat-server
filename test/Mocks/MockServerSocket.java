@@ -9,15 +9,17 @@ public class MockServerSocket extends ServerSocket {
 
     private final ByteArrayInputStream input;
     private final ByteArrayOutputStream output;
+    private final MockSocket mockSocket;
 
-    public MockServerSocket(ByteArrayInputStream inputStream, ByteArrayOutputStream outputStream) throws IOException {
+    public MockServerSocket(ByteArrayInputStream inputStream, ByteArrayOutputStream outputStream, MockSocket mockSocket) throws IOException {
         this.input = inputStream;
         this.output = outputStream;
+        this.mockSocket = mockSocket;
     }
 
     @Override
     public MockSocket accept() {
-        return new MockSocket(this.output, this.input);
+        return this.mockSocket;
     }
 }
 
