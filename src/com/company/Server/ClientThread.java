@@ -27,6 +27,10 @@ public class ClientThread extends Thread {
         return this.clientName;
     }
 
+    public Socket getSocket() {
+        return this.clientSocket;
+    }
+
     private void handleUserInput(Socket clientSocket) throws IOException {
         SocketIOHandler socketIOHandler = new SocketIOHandler(clientSocket);
         String userInput;

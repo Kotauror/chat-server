@@ -19,9 +19,6 @@ public class ClientThreadTests {
     @Before
     public void setup() throws IOException {
         outputStream = new ByteArrayOutputStream();
-//        ByteArrayInputStream inputStream = new ByteArrayInputStream("test String".getBytes());
-//        MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
-//        clientThread = new ClientThread(mockClientSocket);
     }
 
     @Test
@@ -37,7 +34,6 @@ public class ClientThreadTests {
 
     @Test
     public void setAName() {
-//        outputStream = new ByteArrayOutputStream();
         ByteArrayInputStream inputStream = new ByteArrayInputStream("$NAME:kot".getBytes());
         MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
         clientThread = new ClientThread(mockClientSocket);
@@ -47,4 +43,14 @@ public class ClientThreadTests {
         assertEquals("kot", clientThread.getClientName());
     }
 
+    @Test
+    public void returnsSocket() {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("$NAME:kot".getBytes());
+        MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
+        clientThread = new ClientThread(mockClientSocket);
+
+        clientThread.run();
+
+        assertEquals(mockClientSocket, clientThread.getSocket());
+    }
 }
