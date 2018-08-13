@@ -3,9 +3,9 @@ package ServerTests;
 import Mocks.MockClientThread;
 import com.company.Server.ClientBase;
 import com.company.Server.ClientThread;
-import com.sun.security.ntlm.Client;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.net.Socket;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ClientBaseTests {
 
     @Test
-    public void addsClientsToConnectedClients() {
+    public void addsClientsToConnectedClients() throws IOException {
         MockClientThread mockClientThread = new MockClientThread(new Socket());
         ClientBase.addClient(mockClientThread);
 
@@ -23,13 +23,18 @@ public class ClientBaseTests {
     }
 
     @Test
-    public void returnsNamesOfClients() {
+    public void returnsNamesOfClients() throws IOException {
         MockClientThread mockClientThread = new MockClientThread(new Socket());
         ClientBase.addClient(mockClientThread);
 
-        assertEquals("Thread-4 Thread-5 Thread-6 Test name ", ClientBase.getClientsNames());
+        assertEquals("Test name ", ClientBase.getClientsNames());
     }
 
+    @Test
+    public void getClientThread() throws IllegalAccessException, IOException {
+        MockClientThread mockClientThread = new MockClientThread(new Socket());
+        ClientBase.addClient(mockClientThread);
 
-
+         assertEquals(mockClientThread, ClientBase.getClientThread("Test name"));
+    }
 }

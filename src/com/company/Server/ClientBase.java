@@ -25,4 +25,13 @@ public class ClientBase {
         }
         return name.toString();
     }
+
+    public static ClientThread getClientThread(String name) throws IllegalAccessException {
+        for (ClientThread clientThread : connectedClients) {
+            if (clientThread.getClientName().equals(name)) {
+                return clientThread;
+            }
+        }
+        throw new IllegalAccessException("no such client");
+    }
 }
