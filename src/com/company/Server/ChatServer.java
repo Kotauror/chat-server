@@ -10,6 +10,7 @@ import java.util.concurrent.Executor;
 
 public class ChatServer {
 
+    private final Parser parser;
     private ArrayList<ClientThread> connectedClients;
     private int portNumber;
     private ServerSocket serverSocket;
@@ -22,6 +23,7 @@ public class ChatServer {
         this.standardIOHandler = standardIOHandler;
         this.portNumber = this.serverSocket.getLocalPort();
         this.connectedClients = new ArrayList<>();
+        this.parser = new Parser();
     }
 
     public void run() {
@@ -48,6 +50,7 @@ public class ChatServer {
     }
 
     public void sendMessage(String userInput) throws IllegalAccessException {
+        String[] parsedUserInput = this.parser.parseMessage(userInput);
         ClientThread clientThread = getClientThread("kot");
         clientThread.getSocketIOHandler().printToSocket("hehhegrigbewuigh");
     }
