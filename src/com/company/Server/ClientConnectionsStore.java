@@ -2,7 +2,7 @@ package com.company.Server;
 
 import java.util.ArrayList;
 
-public class ClientBase {
+public final class ClientConnectionsStore {
 
     static {
         connectedClients = new ArrayList<>();
@@ -32,6 +32,6 @@ public class ClientBase {
                 return clientThread;
             }
         }
-        throw new IllegalAccessException("no such client");
+        throw new IllegalAccessException("There is no such client under this name.");
     }
 }

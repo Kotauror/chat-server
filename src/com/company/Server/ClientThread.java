@@ -71,7 +71,7 @@ public class ClientThread extends Thread {
     }
 
     private void getUserNames() {
-        String userNames = ClientBase.getClientsNames();
+        String userNames = ClientConnectionsStore.getClientsNames();
         this.socketIOHandler.printToSocket("There are following users: " + userNames);
     }
 
@@ -80,7 +80,7 @@ public class ClientThread extends Thread {
     }
 
     private void sendToOtherUser(String userInput) throws IllegalAccessException, IOException {
-        ClientThread clientThread = ClientBase.getClientThread("kot");
+        ClientThread clientThread = ClientConnectionsStore.getClientThread("kot");
         clientThread.getSocketIOHandler().printToSocket("hehhegrigbewuigh");
         this.socketIOHandler.printToSocket("Message has been sent.");
     }

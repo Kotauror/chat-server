@@ -40,7 +40,7 @@ public class ChatServer {
         Socket clientSocket = this.serverSocket.accept();
         this.standardIOHandler.informOfNewClient();
         ClientThread clientThread = new ClientThread(clientSocket);
-        ClientBase.addClient(clientThread);
+        ClientConnectionsStore.addClient(clientThread);
         executor.execute(clientThread);
     }
 }
