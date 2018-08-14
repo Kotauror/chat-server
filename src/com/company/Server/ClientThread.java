@@ -73,7 +73,7 @@ public class ClientThread extends Thread {
     }
 
     private void getUserNames() {
-        String userNames = ClientConnectionsStore.getClientsNames();
+        String userNames = this.chatServer.getClientNames();
         this.socketIOHandler.printToSocket("There are following users: " + userNames);
     }
 

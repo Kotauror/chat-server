@@ -47,7 +47,14 @@ public class ChatServerTest {
     }
 
     @Test
-    public void oneClientTest() {
+    public void returnsNamesOfClients() throws NoSuchFieldException, IllegalAccessException {
+        mockServer.run();
+
+        assertEquals("Thread-6 ", mockServer.getClientNames());
+    }
+
+    @Test
+    public void oneClientTest() throws NoSuchFieldException, IllegalAccessException {
         mockServer.run();
 
         assertEquals("test String", mockOutputStream.toString().trim());
