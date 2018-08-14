@@ -23,9 +23,7 @@ public class ClientThread extends Thread {
     public void run() {
         try {
             handleUserInput(clientSocket);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (IOException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }
@@ -34,10 +32,7 @@ public class ClientThread extends Thread {
         return this.clientName;
     }
 
-    public Socket getSocket()
-    {
-        return this.clientSocket;
-    }
+    public Socket getSocket() { return this.clientSocket; }
 
     public SocketIOHandler getSocketIOHandler() {
         return this.socketIOHandler;
@@ -52,8 +47,6 @@ public class ClientThread extends Thread {
                 getUserNames();
             } else if (shouldSendToOtherUser(userInput)) {
                 sendToOtherUser(userInput);
-            } else {
-                echoWord(userInput);
             }
             handleUserInput(clientSocket);
         }
@@ -84,9 +77,5 @@ public class ClientThread extends Thread {
     private void sendToOtherUser(String userInput) throws IllegalAccessException, IOException {
         this.chatServer.sendMessage(userInput);
         this.socketIOHandler.printToSocket("Message has been sent.");
-    }
-
-    private void echoWord(String userInput) {
-        this.socketIOHandler.printToSocket(userInput);
     }
 }

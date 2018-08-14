@@ -10,23 +10,20 @@ import org.junit.Test;
 import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ChatClientTests {
 
     private ChatClient chatClient;
     private ByteArrayOutputStream mockSocketOutputStream;
     private ByteArrayOutputStream mockUserOutput;
-    private ByteArrayInputStream mockSocketInputStream;
-    private ByteArrayInputStream mockUserInput;
 
     @Before
     public void setup() throws IOException {
         mockSocketOutputStream = new ByteArrayOutputStream();
-        mockSocketInputStream = new ByteArrayInputStream("hello".getBytes());
+        ByteArrayInputStream mockSocketInputStream = new ByteArrayInputStream("".getBytes());
         MockSocket mockClientSocket = new MockSocket(mockSocketOutputStream, mockSocketInputStream);
 
-        mockUserInput = new ByteArrayInputStream("hello".getBytes());
+        ByteArrayInputStream mockUserInput = new ByteArrayInputStream("hello".getBytes());
         mockUserOutput = new ByteArrayOutputStream();
         PrintStream mockSystemOut = new PrintStream(mockUserOutput);
 
@@ -36,8 +33,10 @@ public class ChatClientTests {
     }
 
     @Test
-    public void echosToSocket() throws IOException {
+    public void getsStringFromKeyboardToSocketOutput() throws IOException, InterruptedException {
         chatClient.run();
+
+        Thread.sleep(100);
 
         assertEquals("hello", mockSocketOutputStream.toString().trim());
     }
@@ -49,10 +48,6 @@ public class ChatClientTests {
         assertEquals("Connected to a server\n" +
                 "To set your username, type $NAME: and your username after colon\n" +
                 "To see the list od users, type $USERS\n" +
-                "To send a message type $MESSAGE - UserNameOfAddressee - Here goes your message\nhello", mockUserOutput.toString().trim());
+                "To send a message type $MESSAGE - UserNameOfAddressee - Here goes your message", mockUserOutput.toString().trim());
     }
-
-
-
-
 }

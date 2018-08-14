@@ -18,14 +18,12 @@ public class ChatClient {
         this.standardIOHandler = standardIOHandler;
     }
 
-    public void run() throws IOException {
+    public void run() {
         standardIOHandler.informOfConnectionToServer();
         standardIOHandler.informOfRules();
-        String clientInput;
-        while ((clientInput = standardIOHandler.readFromStdIn()) != null) {
-            socketIOHandler.printToSocket(clientInput);
-            String messageFromSocket = socketIOHandler.readFromSocket();
-            standardIOHandler.echoToStdOut(messageFromSocket);
-        }
+        PromptsThread promptsThread = new PromptsThread(this.standardIOHandler, this.socketIOHandler);
+        promptsThread.start();
+        MessagesThread messagesThread = new MessagesThread(this.standardIOHandler, this.socketIOHandler);
+        messagesThread.start();
     }
 }

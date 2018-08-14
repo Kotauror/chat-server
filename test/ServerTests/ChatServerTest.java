@@ -4,6 +4,7 @@ import Mocks.MockChatServer;
 import Mocks.MockServerSocket;
 import Mocks.MockServerSocketTwoClients;
 import Mocks.MockSocket;
+import com.company.Server.ClientThread;
 import com.company.Server.CurrentThreadExecutor;
 import com.company.StandardIOHandler;
 import org.junit.Before;
@@ -47,34 +48,30 @@ public class ChatServerTest {
     }
 
     @Test
-    public void returnsNamesOfClients() throws NoSuchFieldException, IllegalAccessException {
+    public void returnsNamesOfClients() throws NoSuchFieldException, IllegalAccessException, InterruptedException {
         mockServer.run();
 
-        assertEquals("Thread-6 ", mockServer.getClientNames());
+        Thread.sleep(1000);
+
+        assertEquals("Thread-9 ", mockServer.getClientNames());
     }
 
     @Test
-    public void oneClientTest() throws NoSuchFieldException, IllegalAccessException {
-        mockServer.run();
-
-        assertEquals("test String", mockOutputStream.toString().trim());
-    }
-
-    @Test
-    public void oneClientSendsMessageToAnother() throws IOException {
+    public void oneClientSendsMessageToAnother() throws IOException, InterruptedException {
         // Client 1
         ByteArrayOutputStream mockOutputStreamClientOne = new ByteArrayOutputStream();
-        ByteArrayInputStream mockInputStreamClientOne = new ByteArrayInputStream("$MESSAGE_Thread-2: Hello".getBytes());
+        ByteArrayInputStream mockInputStreamClientOne = new ByteArrayInputStream("$MESSAGE - Thread-2 - Hello".getBytes());
         MockSocket mockSocketOne = new MockSocket(mockOutputStreamClientOne, mockInputStreamClientOne);
+
         // Client 2
         ByteArrayOutputStream mockOutputStreamClientTwo = new ByteArrayOutputStream();
-        ByteArrayInputStream mockInputStreamClientTwo = new ByteArrayInputStream("$MESSAGE_Thread-2: HelloBack".getBytes());
+        ByteArrayInputStream mockInputStreamClientTwo = new ByteArrayInputStream("$MESSAGE - Thread-2 - Hello".getBytes());
         MockSocket mockSocketTwo = new MockSocket(mockOutputStreamClientTwo, mockInputStreamClientTwo);
 
         // ServerSocket
-        MockServerSocketTwoClients mockServerSocketTwoClients = new MockServerSocketTwoClients(new ByteArrayInputStream("$MESSAGE_Thread-2: Hello".getBytes()), mockOutputStream, mockSocketOne, mockSocketTwo);
+        MockServerSocketTwoClients mockServerSocketTwoClients = new MockServerSocketTwoClients(new ByteArrayInputStream("$MESSAGE - Thread-2 - Hello".getBytes()), mockOutputStream, mockSocketOne, mockSocketTwo);
 
-        ByteArrayInputStream mockUserInput = new ByteArrayInputStream("$MESSAGE_Thread-2: Hello".getBytes());
+        ByteArrayInputStream mockUserInput = new ByteArrayInputStream("$MESSAGE - Thread-2 - Hello".getBytes());
         mockUserOutput = new ByteArrayOutputStream();
         PrintStream mockSystemOut = new PrintStream(mockUserOutput);
         StandardIOHandler standardIOHandler = new StandardIOHandler(mockUserInput, mockSystemOut);
@@ -85,7 +82,9 @@ public class ChatServerTest {
 
         mockServer.run();
 
-        assertEquals("$MESSAGE_Thread-2: Hello", new BufferedReader(new InputStreamReader(mockSocketTwo.getInputStream())).readLine());
+        Thread.sleep(2000);
+
+        assertEquals("Hello", new BufferedReader(new InputStreamReader(mockSocketTwo.getInputStream())).readLine());
 
     }
 }

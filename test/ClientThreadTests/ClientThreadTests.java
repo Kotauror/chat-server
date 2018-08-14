@@ -37,17 +37,6 @@ public class ClientThreadTests {
     }
 
     @Test
-    public void echo() throws IOException {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream("test String".getBytes());
-        MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
-        clientThread = new ClientThread(mockClientSocket, mockServer);
-
-        clientThread.run();
-
-        assertEquals("test String", outputStream.toString().trim());
-    }
-
-    @Test
     public void setAName() throws IOException {
         ByteArrayInputStream inputStream = new ByteArrayInputStream("$NAME:kot".getBytes());
         MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
