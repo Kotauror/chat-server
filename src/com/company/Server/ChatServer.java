@@ -51,8 +51,10 @@ public class ChatServer {
 
     public void sendMessage(String userInput) throws IllegalAccessException {
         String[] parsedUserInput = this.parser.parseMessage(userInput);
-        ClientThread clientThread = getClientThread("kot");
-        clientThread.getSocketIOHandler().printToSocket("hehhegrigbewuigh");
+        String userName = parsedUserInput[1];
+        String userMessage = parsedUserInput[2];
+        ClientThread clientThread = getClientThread(userName);
+        clientThread.getSocketIOHandler().printToSocket(userMessage);
     }
 
     private void connectWithClients() throws IOException {
