@@ -39,8 +39,13 @@ public class ChatServer {
     private void connectWithClients() throws IOException {
         Socket clientSocket = this.serverSocket.accept();
         this.standardIOHandler.informOfNewClient();
-        ClientThread clientThread = new ClientThread(clientSocket);
+        ClientThread clientThread = new ClientThread(clientSocket, this);
         ClientConnectionsStore.addClient(clientThread);
         executor.execute(clientThread);
+    }
+
+    public void sendMessage(String userInput) throws IllegalAccessException {
+        ClientThread clientThread = ClientConnectionsStore.getClientThread("kot");
+        clientThread.getSocketIOHandler().printToSocket("hehhegrigbewuigh");
     }
 }

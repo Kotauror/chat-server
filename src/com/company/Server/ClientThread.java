@@ -9,10 +9,12 @@ public class ClientThread extends Thread {
 
     private final Socket clientSocket;
     private final SocketIOHandler socketIOHandler;
+    private final ChatServer chatServer;
     private String clientName;
 
-    public ClientThread(Socket clientSocket) throws IOException {
+    public ClientThread (Socket clientSocket, ChatServer chatServer) throws IOException {
         this.clientSocket = clientSocket;
+        this.chatServer = chatServer;
         this.clientName = this.getName();
         this.socketIOHandler = new SocketIOHandler(this.clientSocket);
     }
@@ -80,8 +82,7 @@ public class ClientThread extends Thread {
     }
 
     private void sendToOtherUser(String userInput) throws IllegalAccessException, IOException {
-        ClientThread clientThread = ClientConnectionsStore.getClientThread("kot");
-        clientThread.getSocketIOHandler().printToSocket("hehhegrigbewuigh");
+        this.chatServer.sendMessage(userInput);
         this.socketIOHandler.printToSocket("Message has been sent.");
     }
 
