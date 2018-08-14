@@ -57,21 +57,21 @@ public class ChatServerTest {
     }
 
     @Test
-    public void oneClientSendsMessageToAnother() throws IOException, InterruptedException {
+    public void messageIsSendToSocket() throws IOException, InterruptedException {
         // Client 1
         ByteArrayOutputStream mockOutputStreamClientOne = new ByteArrayOutputStream();
-        ByteArrayInputStream mockInputStreamClientOne = new ByteArrayInputStream("$MESSAGE - Thread-2 - Hello".getBytes());
+        ByteArrayInputStream mockInputStreamClientOne = new ByteArrayInputStream("$MESSAGE & Thread-2 & Hello".getBytes());
         MockSocket mockSocketOne = new MockSocket(mockOutputStreamClientOne, mockInputStreamClientOne);
 
         // Client 2
         ByteArrayOutputStream mockOutputStreamClientTwo = new ByteArrayOutputStream();
-        ByteArrayInputStream mockInputStreamClientTwo = new ByteArrayInputStream("$MESSAGE - Thread-2 - Hello".getBytes());
+        ByteArrayInputStream mockInputStreamClientTwo = new ByteArrayInputStream("$MESSAGE & Thread-2 & Hello".getBytes());
         MockSocket mockSocketTwo = new MockSocket(mockOutputStreamClientTwo, mockInputStreamClientTwo);
 
         // ServerSocket
-        MockServerSocketTwoClients mockServerSocketTwoClients = new MockServerSocketTwoClients(new ByteArrayInputStream("$MESSAGE - Thread-2 - Hello".getBytes()), mockOutputStream, mockSocketOne, mockSocketTwo);
+        MockServerSocketTwoClients mockServerSocketTwoClients = new MockServerSocketTwoClients(new ByteArrayInputStream("$MESSAGE & Thread-2 & Hello".getBytes()), mockOutputStream, mockSocketOne, mockSocketTwo);
 
-        ByteArrayInputStream mockUserInput = new ByteArrayInputStream("$MESSAGE - Thread-2 - Hello".getBytes());
+        ByteArrayInputStream mockUserInput = new ByteArrayInputStream("".getBytes());
         mockUserOutput = new ByteArrayOutputStream();
         PrintStream mockSystemOut = new PrintStream(mockUserOutput);
         StandardIOHandler standardIOHandler = new StandardIOHandler(mockUserInput, mockSystemOut);
@@ -82,9 +82,7 @@ public class ChatServerTest {
 
         mockServer.run();
 
-        Thread.sleep(2000);
-
-        assertEquals("Hello", new BufferedReader(new InputStreamReader(mockSocketTwo.getInputStream())).readLine());
+        assertEquals("$MESSAGE & Thread-2 & Hello", new BufferedReader(new InputStreamReader(mockSocketTwo.getInputStream())).readLine());
 
     }
 }

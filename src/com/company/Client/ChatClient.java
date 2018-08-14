@@ -21,8 +21,16 @@ public class ChatClient {
     public void run() {
         standardIOHandler.informOfConnectionToServer();
         standardIOHandler.informOfRules();
+        listenForPrompts();
+        listenForMessages();
+    }
+
+    private void listenForPrompts() {
         PromptsThread promptsThread = new PromptsThread(this.standardIOHandler, this.socketIOHandler);
         promptsThread.start();
+    }
+
+    private void listenForMessages() {
         MessagesThread messagesThread = new MessagesThread(this.standardIOHandler, this.socketIOHandler);
         messagesThread.start();
     }

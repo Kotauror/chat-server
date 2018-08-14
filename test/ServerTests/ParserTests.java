@@ -13,6 +13,6 @@ public class ParserTests {
         words[0] = "$MESSAGE";
         words[1] = "kot";
         words[2] = "hehehhe lololol";
-        Assert.assertArrayEquals(words, parser.parseMessage("$MESSAGE - kot - hehehhe lololol"));
+        Assert.assertArrayEquals(words, parser.parseMessage("$MESSAGE & kot & hehehhe lololol"));
     }
 }
