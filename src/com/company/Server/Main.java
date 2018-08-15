@@ -12,7 +12,7 @@ public class Main {
         int portNumber = Integer.parseInt((args[0]));
         ServerSocket serverSocket = new ServerSocket(portNumber);
         StandardIOHandler standardIOHandler = new StandardIOHandler(System.in, System.out);
-        Executor executor = Executors.newFixedThreadPool(2);
+        Executor executor = Executors.newFixedThreadPool(6);
         ChatServer chatServer = new ChatServer(serverSocket, standardIOHandler, executor);
         chatServer.run();
     }
