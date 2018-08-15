@@ -1,5 +1,6 @@
 package Mocks;
 
+import com.company.Server.Parser;
 import com.company.StandardIOHandler;
 import com.company.Server.ChatServer;
 
@@ -12,8 +13,8 @@ public class MockChatServer extends ChatServer {
 
     private ArrayList runServerBooleans;
 
-    public MockChatServer(ServerSocket serverSocket, StandardIOHandler standardIOHandler, Executor executor) {
-        super(serverSocket, standardIOHandler, executor);
+    public MockChatServer(ServerSocket serverSocket, StandardIOHandler standardIOHandler, Executor executor, Parser parser) {
+        super(serverSocket, standardIOHandler, executor, parser);
         this.runServerBooleans = new ArrayList<Boolean>();
         fillBooleans(true, false);
     }

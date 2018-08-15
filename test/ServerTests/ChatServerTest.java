@@ -4,8 +4,8 @@ import Mocks.MockChatServer;
 import Mocks.MockServerSocket;
 import Mocks.MockServerSocketTwoClients;
 import Mocks.MockSocket;
-import com.company.Server.ClientThread;
 import com.company.Server.CurrentThreadExecutor;
+import com.company.Server.Parser;
 import com.company.StandardIOHandler;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,8 +36,8 @@ public class ChatServerTest {
         StandardIOHandler standardIOHandler = new StandardIOHandler(mockUserInput, mockSystemOut);
 
         Executor executor = new CurrentThreadExecutor();
-
-        mockServer = new MockChatServer(mockServerSocket, standardIOHandler, executor);
+        Parser parser = new Parser();
+        mockServer = new MockChatServer(mockServerSocket, standardIOHandler, executor, parser);
     }
 
     @Test
@@ -51,9 +51,9 @@ public class ChatServerTest {
     public void returnsNamesOfClients() throws NoSuchFieldException, IllegalAccessException, InterruptedException {
         mockServer.run();
 
-        Thread.sleep(1000);
+        Thread.sleep(100);
 
-        assertEquals("Thread-9 ", mockServer.getClientNames());
+        assertEquals("Thread-8 ", mockServer.getClientNames());
     }
 
     @Test(expected= IllegalAccessException.class)
@@ -83,7 +83,9 @@ public class ChatServerTest {
 
         Executor executor = new CurrentThreadExecutor();
 
-        mockServer = new MockChatServer(mockServerSocketTwoClients, standardIOHandler, executor);
+        Parser parser = new Parser();
+
+        mockServer = new MockChatServer(mockServerSocketTwoClients, standardIOHandler, executor, parser);
 
         mockServer.run();
 

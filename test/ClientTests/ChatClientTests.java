@@ -33,7 +33,7 @@ public class ChatClientTests {
     }
 
     @Test
-    public void listenForPrompts() throws IOException, InterruptedException {
+    public void listenForPrompts() throws InterruptedException {
         chatClient.run();
 
         Thread.sleep(100);
@@ -42,7 +42,7 @@ public class ChatClientTests {
     }
 
     @Test
-    public void listenForMessages() throws IOException, InterruptedException {
+    public void listenForMessages() throws InterruptedException {
         chatClient.run();
 
         Thread.sleep(100);

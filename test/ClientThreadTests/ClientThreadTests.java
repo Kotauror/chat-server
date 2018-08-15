@@ -4,6 +4,7 @@ import Mocks.MockChatServer;
 import Mocks.MockServerSocket;
 import Mocks.MockSocket;
 import com.company.Server.ClientThread;
+import com.company.Server.Parser;
 import com.company.SocketIOHandler;
 import com.company.StandardIOHandler;
 import org.junit.Before;
@@ -31,7 +32,8 @@ public class ClientThreadTests {
         ByteArrayInputStream inputStream = new ByteArrayInputStream("".getBytes());
         MockServerSocket mockServerSocket = new MockServerSocket(inputStream, outputStream, new MockSocket(outputStream, new ByteArrayInputStream("".getBytes())));
         Executor executor = Executors.newFixedThreadPool(2);
-        mockServer = new MockChatServer(mockServerSocket, new StandardIOHandler(System.in, System.out), executor);
+        Parser parser = new Parser();
+        mockServer = new MockChatServer(mockServerSocket, new StandardIOHandler(System.in, System.out), executor, parser);
     }
 
     @Test

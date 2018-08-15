@@ -22,7 +22,6 @@ public class Main {
             chatClient.run();
         } catch (IOException exception) {
             System.out.println("Client cannot be successfully initialized and run.");
-
         }
     }
 }

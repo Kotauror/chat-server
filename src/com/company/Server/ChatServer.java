@@ -18,13 +18,13 @@ public class ChatServer {
     private StandardIOHandler standardIOHandler;
     private Executor executor;
 
-    public ChatServer(ServerSocket serverSocket, StandardIOHandler standardIOHandler, Executor executor) {
+    public ChatServer(ServerSocket serverSocket, StandardIOHandler standardIOHandler, Executor executor, Parser parser) {
         this.executor = executor;
         this.serverSocket = serverSocket;
         this.standardIOHandler = standardIOHandler;
         this.portNumber = this.serverSocket.getLocalPort();
         this.connectedClients = new ArrayList<>();
-        this.parser = new Parser();
+        this.parser = parser;
     }
 
     public void run() {
