@@ -16,30 +16,7 @@ public class StandardIOHandler {
        return stdin.readLine();
     }
 
-    public void echoToStdOut(String content) {
+    public void printToStdOut(String content) {
         this.out.println(content);
-    }
-
-    public void informOfNewClient() {
-        this.out.println("A new socket has been connected");
-    }
-
-    public void informOfException(int portNumber, String exceptionMessage) {
-        this.out.println("Exception caught when trying to listen on port: " + portNumber);
-        this.out.println(exceptionMessage);
-    }
-
-    public void informOfConnectionToServer() {
-        this.out.println("Connected to a server");
-    }
-
-    public void printServerPort(int portNumber) {
-        this.out.println("Listening on port " + portNumber);
-    }
-
-    public void informOfRules() {
-        this.out.println("To set your username, type $NAME: and your username after colon\n" +
-                "To see the list od users, type $USERS\n" +
-                "To send a message type $MESSAGE & UserNameOfAddressee & Here goes your message");
     }
 }
