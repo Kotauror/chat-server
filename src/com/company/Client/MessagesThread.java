@@ -30,5 +30,4 @@ public class MessagesThread extends Thread {
             standardIOHandler.printToStdOut(message);
         }
     }
-
 }

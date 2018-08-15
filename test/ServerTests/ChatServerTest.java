@@ -60,16 +60,16 @@ public class ChatServerTest {
     public void messageIsSendToSocket() throws IOException, InterruptedException {
         // Client 1
         ByteArrayOutputStream mockOutputStreamClientOne = new ByteArrayOutputStream();
-        ByteArrayInputStream mockInputStreamClientOne = new ByteArrayInputStream("$MESSAGE & Thread-2 & Hello".getBytes());
+        ByteArrayInputStream mockInputStreamClientOne = new ByteArrayInputStream("$MESSAGE & Thread-0 & Hello".getBytes());
         MockSocket mockSocketOne = new MockSocket(mockOutputStreamClientOne, mockInputStreamClientOne);
 
         // Client 2
         ByteArrayOutputStream mockOutputStreamClientTwo = new ByteArrayOutputStream();
-        ByteArrayInputStream mockInputStreamClientTwo = new ByteArrayInputStream("$MESSAGE & Thread-2 & Hello".getBytes());
+        ByteArrayInputStream mockInputStreamClientTwo = new ByteArrayInputStream("$MESSAGE & Thread-0 & Hello".getBytes());
         MockSocket mockSocketTwo = new MockSocket(mockOutputStreamClientTwo, mockInputStreamClientTwo);
 
         // ServerSocket
-        MockServerSocketTwoClients mockServerSocketTwoClients = new MockServerSocketTwoClients(new ByteArrayInputStream("$MESSAGE & Thread-2 & Hello".getBytes()), mockOutputStream, mockSocketOne, mockSocketTwo);
+        MockServerSocketTwoClients mockServerSocketTwoClients = new MockServerSocketTwoClients(new ByteArrayInputStream("$MESSAGE & Thread-0 & Hello".getBytes()), mockOutputStream, mockSocketOne, mockSocketTwo);
 
         ByteArrayInputStream mockUserInput = new ByteArrayInputStream("".getBytes());
         mockUserOutput = new ByteArrayOutputStream();
@@ -82,7 +82,6 @@ public class ChatServerTest {
 
         mockServer.run();
 
-        assertEquals("$MESSAGE & Thread-2 & Hello", new BufferedReader(new InputStreamReader(mockSocketTwo.getInputStream())).readLine());
-
+        assertEquals("$MESSAGE & Thread-0 & Hello", new BufferedReader(new InputStreamReader(mockSocketTwo.getInputStream())).readLine());
     }
 }
