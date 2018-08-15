@@ -20,7 +20,7 @@ public class ChatClientTests {
     @Before
     public void setup() throws IOException {
         mockSocketOutputStream = new ByteArrayOutputStream();
-        ByteArrayInputStream mockSocketInputStream = new ByteArrayInputStream("".getBytes());
+        ByteArrayInputStream mockSocketInputStream = new ByteArrayInputStream("test".getBytes());
         MockSocket mockClientSocket = new MockSocket(mockSocketOutputStream, mockSocketInputStream);
 
         ByteArrayInputStream mockUserInput = new ByteArrayInputStream("hello".getBytes());
@@ -33,7 +33,7 @@ public class ChatClientTests {
     }
 
     @Test
-    public void getsStringFromKeyboardToSocketOutput() throws IOException, InterruptedException {
+    public void listenForPrompts() throws IOException, InterruptedException {
         chatClient.run();
 
         Thread.sleep(100);
@@ -42,12 +42,11 @@ public class ChatClientTests {
     }
 
     @Test
-    public void informsOfConnectionAndEchosToUsersScreen() throws IOException {
+    public void listenForMessages() throws IOException, InterruptedException {
         chatClient.run();
 
-        assertEquals("Connected to a server\n" +
-                "To set your username, type $NAME: and your username after colon\n" +
-                "To see the list od users, type $USERS\n" +
-                "To send a message type $MESSAGE & UserNameOfAddressee & Here goes your message", mockUserOutput.toString().trim());
+        Thread.sleep(100);
+
+        assertEquals("test", mockUserOutput.toString().trim());
     }
 }

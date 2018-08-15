@@ -14,8 +14,6 @@ public class ChatClient {
     }
 
     public void run() {
-        standardIOHandler.informOfConnectionToServer();
-        standardIOHandler.informOfRules();
         listenForPrompts();
         listenForMessages();
     }

@@ -1,5 +1,6 @@
 package com.company.Server;
 
+import com.company.Messages;
 import com.company.StandardIOHandler;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class ChatServer {
     }
 
     public void run() {
-        standardIOHandler.printServerPort(this.portNumber);
+        standardIOHandler.printToStdOut(Messages.printServerPort(this.portNumber));
         while (runServer()) {
             try {
                 connectWithClients();
@@ -59,7 +60,7 @@ public class ChatServer {
 
     private void connectWithClients() throws IOException {
         Socket clientSocket = this.serverSocket.accept();
-        this.standardIOHandler.informOfNewClient();
+        this.standardIOHandler.printToStdOut(Messages.newClientInServer());
         ClientThread clientThread = new ClientThread(clientSocket, this);
         addClient(clientThread);
         executor.execute(clientThread);

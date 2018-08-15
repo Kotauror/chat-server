@@ -1,5 +1,6 @@
 package com.company.Server;
 
+import com.company.Messages;
 import com.company.SocketIOHandler;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class ClientThread extends Thread {
     @Override
     public void run() {
         try {
+            printInitialMessages();
             handleUserInput(clientSocket);
         } catch (IOException | IllegalAccessException e) {
             e.printStackTrace();
@@ -36,6 +38,11 @@ public class ClientThread extends Thread {
 
     public SocketIOHandler getSocketIOHandler() {
         return this.socketIOHandler;
+    }
+
+    private void printInitialMessages() {
+        socketIOHandler.printToSocket(Messages.informOfConnectionToServer());
+        socketIOHandler.printToSocket(Messages.getPrompts());
     }
 
     private void handleUserInput(Socket clientSocket) throws IOException, IllegalAccessException {
