@@ -56,6 +56,11 @@ public class ChatServerTest {
         assertEquals("Thread-9 ", mockServer.getClientNames());
     }
 
+    @Test(expected= IllegalAccessException.class)
+    public void sendMessageThrowsErrorOnInvalidMessage() throws IllegalAccessException {
+        mockServer.sendMessage("test invalid string");
+    }
+
     @Test
     public void messageIsSendToSocket() throws IOException, InterruptedException {
         // Client 1

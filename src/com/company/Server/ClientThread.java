@@ -82,7 +82,7 @@ public class ClientThread extends Thread {
             this.chatServer.sendMessage(userInput);
             this.socketIOHandler.printToSocket("Message has been sent.");
         } catch (IllegalAccessException e) {
-            this.socketIOHandler.printToSocket("Message not sent - there is no such user.");
+            this.socketIOHandler.printToSocket("Message not sent - invalid syntax.");
         }
     }
 }
