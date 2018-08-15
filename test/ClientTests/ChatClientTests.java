@@ -2,6 +2,7 @@ package ClientTests;
 
 import Mocks.MockSocket;
 import com.company.Client.ChatClient;
+import com.company.Server.CurrentThreadExecutor;
 import com.company.StandardIOHandler;
 import com.company.SocketIOHandler;
 import org.junit.Before;
@@ -29,23 +30,22 @@ public class ChatClientTests {
 
         StandardIOHandler standardIOHandler = new StandardIOHandler(mockUserInput, mockSystemOut);
         SocketIOHandler clientSocketIOHandler = new SocketIOHandler(mockClientSocket);
-        chatClient = new ChatClient(clientSocketIOHandler, standardIOHandler);
+
+        CurrentThreadExecutor currentThreadExecutor = new CurrentThreadExecutor();
+
+        chatClient = new ChatClient(clientSocketIOHandler, standardIOHandler, currentThreadExecutor);
     }
 
     @Test
-    public void listenForPrompts() throws InterruptedException {
+    public void listenForPrompts() {
         chatClient.run();
-
-        Thread.sleep(100);
 
         assertEquals("hello", mockSocketOutputStream.toString().trim());
     }
 
     @Test
-    public void listenForMessages() throws InterruptedException {
+    public void listenForMessages() {
         chatClient.run();
-
-        Thread.sleep(100);
 
         assertEquals("test", mockUserOutput.toString().trim());
     }
