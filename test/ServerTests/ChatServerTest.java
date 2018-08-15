@@ -4,7 +4,6 @@ import Mocks.MockChatServer;
 import Mocks.MockServerSocket;
 import Mocks.MockServerSocketTwoClients;
 import Mocks.MockSocket;
-import com.company.Server.ClientThread;
 import com.company.Server.CurrentThreadExecutor;
 import com.company.StandardIOHandler;
 import org.junit.Before;
@@ -83,6 +82,5 @@ public class ChatServerTest {
         mockServer.run();
 
         assertEquals("$MESSAGE & Thread-2 & Hello", new BufferedReader(new InputStreamReader(mockSocketTwo.getInputStream())).readLine());
-
     }
 }

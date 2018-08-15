@@ -3,7 +3,6 @@ package com.company.Client;
 import com.company.SocketIOHandler;
 import com.company.StandardIOHandler;
 
-import java.io.IOException;
 import java.net.Socket;
 
 public class ChatClient {

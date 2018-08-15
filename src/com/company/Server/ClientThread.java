@@ -74,8 +74,13 @@ public class ClientThread extends Thread {
         return userInput.substring(0, Math.min(userInput.length(), 8)).equals("$MESSAGE");
     }
 
-    private void sendToOtherUser(String userInput) throws IllegalAccessException, IOException {
-        this.chatServer.sendMessage(userInput);
-        this.socketIOHandler.printToSocket("Message has been sent.");
+    private void sendToOtherUser(String userInput) {
+        try {
+            this.chatServer.sendMessage(userInput);
+            this.socketIOHandler.printToSocket("Message has been sent.");
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            this.socketIOHandler.printToSocket("Message not sent");
+        }
     }
 }

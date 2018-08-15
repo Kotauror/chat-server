@@ -1,5 +1,6 @@
 package com.company.Server;
 
+import com.company.Client.ChatClient;
 import com.company.StandardIOHandler;
 
 import java.io.IOException;
@@ -61,6 +62,7 @@ public class ChatServer {
         Socket clientSocket = this.serverSocket.accept();
         this.standardIOHandler.informOfNewClient();
         ClientThread clientThread = new ClientThread(clientSocket, this);
+        
         addClient(clientThread);
         executor.execute(clientThread);
     }
