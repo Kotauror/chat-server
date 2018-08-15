@@ -29,7 +29,7 @@ public class ChatClientTests {
 
         StandardIOHandler standardIOHandler = new StandardIOHandler(mockUserInput, mockSystemOut);
         SocketIOHandler clientSocketIOHandler = new SocketIOHandler(mockClientSocket);
-        chatClient = new ChatClient(mockClientSocket, clientSocketIOHandler, standardIOHandler);
+        chatClient = new ChatClient(clientSocketIOHandler, standardIOHandler);
     }
 
     @Test

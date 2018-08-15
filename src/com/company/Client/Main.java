@@ -18,7 +18,7 @@ public class Main {
             SocketIOHandler socketIOHandler = new SocketIOHandler(clientSocket);
             StandardIOHandler standardIOHandler = new StandardIOHandler(System.in, System.out);
 
-            ChatClient chatClient = new ChatClient(clientSocket, socketIOHandler, standardIOHandler);
+            ChatClient chatClient = new ChatClient(socketIOHandler, standardIOHandler);
             chatClient.run();
         } catch (IOException exception) {
             System.out.println(exception.getMessage());
