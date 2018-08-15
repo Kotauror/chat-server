@@ -51,7 +51,7 @@ public class ChatServerTest {
     public void returnsNamesOfClients() {
         mockServer.run();
 
-        assertEquals("Thread-8 ", mockServer.getClientNames());
+        assertEquals("Thread-13 ", mockServer.getClientNames());
     }
 
     @Test(expected= IllegalAccessException.class)
