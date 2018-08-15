@@ -8,23 +8,21 @@ import java.net.Socket;
 
 public class ClientThread extends Thread {
 
-    private final Socket clientSocket;
     private final SocketIOHandler socketIOHandler;
     private final ChatServer chatServer;
     private String clientName;
 
     public ClientThread (Socket clientSocket, ChatServer chatServer) throws IOException {
-        this.clientSocket = clientSocket;
         this.chatServer = chatServer;
         this.clientName = this.getName();
-        this.socketIOHandler = new SocketIOHandler(this.clientSocket);
+        this.socketIOHandler = new SocketIOHandler(clientSocket);
     }
 
     @Override
     public void run() {
         try {
             printInitialMessages();
-            handleUserInput(clientSocket);
+            handleUserInput();
         } catch (IOException e) {
             this.socketIOHandler.printToSocket("Client cannot be successfully run.");
         }
@@ -33,8 +31,6 @@ public class ClientThread extends Thread {
     public String getClientName() {
         return this.clientName;
     }
-
-    public Socket getSocket() { return this.clientSocket; }
 
     public SocketIOHandler getSocketIOHandler() {
         return this.socketIOHandler;
@@ -45,7 +41,7 @@ public class ClientThread extends Thread {
         socketIOHandler.printToSocket(Messages.getPrompts());
     }
 
-    private void handleUserInput(Socket clientSocket) throws IOException {
+    private void handleUserInput() throws IOException {
         String userInput;
         while ((userInput = this.socketIOHandler.readFromSocket()) != null) {
             if (shouldSetName(userInput)) {
@@ -55,7 +51,7 @@ public class ClientThread extends Thread {
             } else if (shouldSendToOtherUser(userInput)) {
                 sendToOtherUser(userInput);
             }
-            handleUserInput(clientSocket);
+            handleUserInput();
         }
     }
 
@@ -86,7 +82,6 @@ public class ClientThread extends Thread {
             this.chatServer.sendMessage(userInput);
             this.socketIOHandler.printToSocket("Message has been sent.");
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
             this.socketIOHandler.printToSocket("Message not sent - there is no such user.");
         }
     }
