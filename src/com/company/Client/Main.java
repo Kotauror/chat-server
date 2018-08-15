@@ -21,7 +21,8 @@ public class Main {
             ChatClient chatClient = new ChatClient(socketIOHandler, standardIOHandler);
             chatClient.run();
         } catch (IOException exception) {
-            System.out.println(exception.getMessage());
+            System.out.println("Client cannot be successfully initialized and run.");
+
         }
     }
 }
