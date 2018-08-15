@@ -1,6 +1,8 @@
 package com.company.Server;
 
 import com.company.Client.ChatClient;
+import com.company.Messages;
+import com.company.SocketIOHandler;
 import com.company.StandardIOHandler;
 
 import java.io.IOException;
@@ -12,7 +14,7 @@ import java.util.concurrent.Executor;
 public class ChatServer {
 
     private final Parser parser;
-    private ArrayList<ClientThread> connectedClients;
+    private ArrayList<ChatClient> connectedClients;
     private int portNumber;
     private ServerSocket serverSocket;
     private StandardIOHandler standardIOHandler;
@@ -28,7 +30,7 @@ public class ChatServer {
     }
 
     public void run() {
-        standardIOHandler.printServerPort(this.portNumber);
+        standardIOHandler.printToStdOut(Messages.portNumberInfo(this.portNumber));
         while (runServer()) {
             try {
                 connectWithClients();
@@ -44,8 +46,8 @@ public class ChatServer {
 
     public String getClientNames() {
         StringBuilder name = new StringBuilder();
-        for (ClientThread clientThread : this.connectedClients) {
-            name.append(clientThread.getClientName()).append(" ");
+        for (ChatClient chatClient : this.connectedClients) {
+            name.append(chatClient.getClientName()).append(" ");
         }
         return name.toString();
     }
@@ -54,27 +56,31 @@ public class ChatServer {
         String[] parsedUserInput = this.parser.parseMessage(userInput);
         String userName = parsedUserInput[1];
         String userMessage = parsedUserInput[2];
-        ClientThread clientThread = getClientThread(userName);
-        clientThread.getSocketIOHandler().printToSocket(userMessage);
+        ChatClient chatClient = getClientThread(userName);
+        chatClient.receiveMessage(userMessage);
     }
 
     private void connectWithClients() throws IOException {
         Socket clientSocket = this.serverSocket.accept();
-        this.standardIOHandler.informOfNewClient();
-        ClientThread clientThread = new ClientThread(clientSocket, this);
-        
-        addClient(clientThread);
-        executor.execute(clientThread);
+        this.standardIOHandler.printToStdOut(Messages.informOfNewClient());
+        ChatClient chatClient = createNewChatClient(clientSocket);
+        addClient(chatClient);
+        executor.execute(chatClient.getClientThread());
+    }
+    private ChatClient createNewChatClient(Socket clientSocket) throws IOException {
+        SocketIOHandler socketIOHandler = new SocketIOHandler(clientSocket);
+        ClientThread clientThread = new ClientThread(socketIOHandler, this);
+        return new ChatClient(socketIOHandler, new StandardIOHandler(System.in, System.out), clientThread);
     }
 
-    private void addClient(ClientThread clientThread) {
-        this.connectedClients.add(clientThread);
+    private void addClient(ChatClient chatClient) {
+        this.connectedClients.add(chatClient);
     }
 
-    private ClientThread getClientThread(String name) throws IllegalAccessException {
-        for (ClientThread clientThread : connectedClients) {
-            if (clientThread.getClientName().equals(name)) {
-                return clientThread;
+    private ChatClient getClientThread(String name) throws IllegalAccessException {
+        for (ChatClient chatClient : connectedClients) {
+            if (chatClient.getClientName().equals(name)) {
+                return chatClient;
             }
         }
         throw new IllegalAccessException("There is no such client under this name.");

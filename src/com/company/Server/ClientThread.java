@@ -1,28 +1,28 @@
 package com.company.Server;
 
 import com.company.SocketIOHandler;
+import com.company.Messages;
 
 import java.io.IOException;
-import java.net.Socket;
 
 public class ClientThread extends Thread {
 
-    private final Socket clientSocket;
     private final SocketIOHandler socketIOHandler;
     private final ChatServer chatServer;
     private String clientName;
 
-    public ClientThread (Socket clientSocket, ChatServer chatServer) throws IOException {
-        this.clientSocket = clientSocket;
+    public ClientThread (SocketIOHandler socketIOHandler, ChatServer chatServer) {
+        this.socketIOHandler = socketIOHandler;
         this.chatServer = chatServer;
         this.clientName = this.getName();
-        this.socketIOHandler = new SocketIOHandler(this.clientSocket);
     }
 
     @Override
     public void run() {
         try {
-            handleUserInput(clientSocket);
+            this.socketIOHandler.printToSocket(Messages.informOfConnectionToServer());
+            this.socketIOHandler.printToSocket(Messages.getRules());
+            handleUserInput();
         } catch (IOException | IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -32,13 +32,11 @@ public class ClientThread extends Thread {
         return this.clientName;
     }
 
-    public Socket getSocket() { return this.clientSocket; }
-
     public SocketIOHandler getSocketIOHandler() {
         return this.socketIOHandler;
     }
 
-    private void handleUserInput(Socket clientSocket) throws IOException, IllegalAccessException {
+    private void handleUserInput() throws IOException, IllegalAccessException {
         String userInput;
         while ((userInput = this.socketIOHandler.readFromSocket()) != null) {
             if (shouldSetName(userInput)) {
@@ -48,7 +46,7 @@ public class ClientThread extends Thread {
             } else if (shouldSendToOtherUser(userInput)) {
                 sendToOtherUser(userInput);
             }
-            handleUserInput(clientSocket);
+            handleUserInput();
         }
     }
 

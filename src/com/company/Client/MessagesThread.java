@@ -27,7 +27,7 @@ public class MessagesThread extends Thread {
     public void listenForMessages() throws IOException {
         String message;
         while ((message = socketIOHandler.readFromSocket()) != null) {
-            standardIOHandler.echoToStdOut(message);
+            standardIOHandler.printToStdOut(message);
         }
     }
 

@@ -1,8 +1,6 @@
 package com.company;
 
-public class Messenger {
-
-    public Messenger() {}
+public abstract class Messages {
 
     public static String getRules() {
         return "To set your username, type $NAME: and your username after colon\n" +

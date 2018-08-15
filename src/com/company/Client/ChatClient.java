@@ -1,27 +1,36 @@
 package com.company.Client;
 
+import com.company.Server.ClientThread;
 import com.company.SocketIOHandler;
 import com.company.StandardIOHandler;
 
-import java.net.Socket;
-
 public class ChatClient {
 
-    private final Socket clientSocket;
     private final SocketIOHandler socketIOHandler;
     private final StandardIOHandler standardIOHandler;
+    private final ClientThread clientThread;
 
-    public ChatClient(Socket clientSocket, SocketIOHandler socketIOHandler, StandardIOHandler standardIOHandler) {
-        this.clientSocket = clientSocket;
+    public ChatClient(SocketIOHandler socketIOHandler, StandardIOHandler standardIOHandler, ClientThread clientThread) {
         this.socketIOHandler = socketIOHandler;
         this.standardIOHandler = standardIOHandler;
+        this.clientThread = clientThread;
     }
 
     public void run() {
-        standardIOHandler.informOfConnectionToServer();
-        standardIOHandler.informOfRules();
         listenForPrompts();
         listenForMessages();
+    }
+
+    public void receiveMessage(String message) {
+        this.clientThread.getSocketIOHandler().printToSocket(message);
+    }
+
+    public ClientThread getClientThread() {
+        return this.clientThread;
+    }
+
+    public String getClientName() {
+        return this.clientThread.getClientName();
     }
 
     private void listenForPrompts() {

@@ -47,7 +47,7 @@ public class ChatServerTest {
     }
 
     @Test
-    public void returnsNamesOfClients() throws NoSuchFieldException, IllegalAccessException, InterruptedException {
+    public void returnsNamesOfClients() throws InterruptedException {
         mockServer.run();
 
         Thread.sleep(1000);
@@ -56,7 +56,7 @@ public class ChatServerTest {
     }
 
     @Test
-    public void messageIsSendToSocket() throws IOException, InterruptedException {
+    public void messageIsSendToSocket() throws IOException {
         // Client 1
         ByteArrayOutputStream mockOutputStreamClientOne = new ByteArrayOutputStream();
         ByteArrayInputStream mockInputStreamClientOne = new ByteArrayInputStream("$MESSAGE & Thread-2 & Hello".getBytes());
