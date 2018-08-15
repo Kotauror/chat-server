@@ -13,9 +13,11 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,7 +35,7 @@ public class ClientThreadTests {
         MockServerSocket mockServerSocket = new MockServerSocket(inputStream, outputStream, new MockSocket(outputStream, new ByteArrayInputStream("".getBytes())));
         Executor executor = Executors.newFixedThreadPool(2);
         Parser parser = new Parser();
-        mockServer = new MockChatServer(mockServerSocket, new StandardIOHandler(System.in, System.out), executor, parser);
+        mockServer = new MockChatServer(mockServerSocket, new StandardIOHandler(System.in, new PrintStream(outputStream)), executor, parser);
     }
 
     @Test
@@ -56,5 +58,38 @@ public class ClientThreadTests {
         clientThread.run();
 
         assertThat(clientThread.getSocketIOHandler(), instanceOf(SocketIOHandler.class));
+    }
+
+    @Test
+    public void getUserNames() throws IOException {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("$USERS".getBytes());
+        MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
+        clientThread = new ClientThread(mockClientSocket, mockServer);
+
+        clientThread.run();
+
+        assertEquals("Thread-5", clientThread.getClientName());
+    }
+
+    @Test
+    public void getsConfirmationOfSendingMessage() throws IOException {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("$MESSAGE & Thread-9 & hehe".getBytes());
+        MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
+        clientThread = new ClientThread(mockClientSocket, mockServer);
+        mockServer.run();
+        clientThread.run();
+
+        assertTrue(outputStream.toString().contains("Message has been sent."));
+    }
+
+    @Test
+    public void getsInfoOfNotSendingAMessage() throws IOException {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("$MESSAGE & Thread-1 hehe".getBytes());
+        MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
+        clientThread = new ClientThread(mockClientSocket, mockServer);
+        mockServer.run();
+        clientThread.run();
+
+        assertTrue(outputStream.toString().contains("Message not sent - invalid syntax."));
     }
 }
