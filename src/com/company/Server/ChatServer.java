@@ -33,7 +33,7 @@ public class ChatServer {
             try {
                 connectWithClients();
             } catch (IOException e) {
-                e.printStackTrace();
+                this.standardIOHandler.printToStdOut("Connection with client was unsuccessful");
             }
         }
     }

@@ -29,9 +29,7 @@ public class ClientThread extends Thread {
         try {
             printInitialMessages();
             handleUserInput();
-        } catch (IOException e) {
-            this.socketIOHandler.printToSocket("Client cannot be successfully run.");
-        } catch (IllegalAccessException e) {
+        } catch (IOException | IllegalAccessException e) {
             this.socketIOHandler.printToSocket("Client cannot be successfully run.");
         }
     }
