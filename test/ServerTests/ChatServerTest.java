@@ -52,7 +52,7 @@ public class ChatServerTest {
     public void returnsNamesOfClients() {
         mockServer.run();
 
-        assertEquals("Thread-13 ", mockServer.getClientNames());
+        assertEquals("Thread-14 ", mockServer.getClientNames());
     }
 
     @Test(expected= IllegalAccessException.class)
@@ -64,7 +64,7 @@ public class ChatServerTest {
     public void messageIsSendToSocket() throws IOException {
         // Client 1
         ByteArrayOutputStream mockOutputStreamClientOne = new ByteArrayOutputStream();
-        ByteArrayInputStream mockInputStreamClientOne = new ByteArrayInputStream("$MESSAGE & Thread-14 & Hello".getBytes());
+        ByteArrayInputStream mockInputStreamClientOne = new ByteArrayInputStream("$MESSAGE & Thread-15 & Hello".getBytes());
         MockSocket mockSocketOne = new MockSocket(mockOutputStreamClientOne, mockInputStreamClientOne);
 
         // Client 2
@@ -76,7 +76,7 @@ public class ChatServerTest {
         ByteArrayOutputStream mockServerOutput = new ByteArrayOutputStream();
         MockServerSocketTwoClients mockServerSocketTwoClients = new MockServerSocketTwoClients(mockServerOutput, mockSocketOne, mockSocketTwo);
 
-        ByteArrayInputStream mockUserInput = new ByteArrayInputStream("$MESSAGE & Thread-14 & Hello".getBytes());
+        ByteArrayInputStream mockUserInput = new ByteArrayInputStream("$MESSAGE & Thread-15 & Hello".getBytes());
         mockUserOutput = new ByteArrayOutputStream();
         PrintStream mockSystemOut = new PrintStream(mockUserOutput);
         StandardIOHandler standardIOHandler = new StandardIOHandler(mockUserInput, mockSystemOut);
@@ -90,11 +90,11 @@ public class ChatServerTest {
 
         assertEquals("Connected to a server\n" +
                         "---------- INSTRUCTIONS ----------\n" +
-                "> To set your username, type $NAME: and your username after colon\n" +
+                "> To set your username, type $NAME username\n" +
                 "> To see the list od users, type $USERS\n" +
                 "> To send a message type $MESSAGE & UserNameOfAddressee & your message\n" +
                 "----------------------------------\n\n" +
-                "💬  Thread-14: Hello\n" +
+                "💬  Thread-15: Hello\n" +
                 "Message has been sent.", mockOutputStreamClientOne.toString().trim());
     }
 }

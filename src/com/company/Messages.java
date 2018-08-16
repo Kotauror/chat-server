@@ -4,7 +4,7 @@ public abstract class Messages {
 
     public static String getPrompts() {
         return "---------- INSTRUCTIONS ----------\n" +
-                "> To set your username, type $NAME: and your username after colon\n" +
+                "> To set your username, type $NAME username\n" +
                 "> To see the list od users, type $USERS\n" +
                 "> To send a message type $MESSAGE & UserNameOfAddressee & your message\n" +
                 "----------------------------------\n";

@@ -27,6 +27,7 @@ public class ClientThreadTests {
     private ByteArrayOutputStream outputStream;
     private ClientThread clientThread;
     private MockChatServer mockServer;
+    private Parser parser;
 
     @Before
     public void setup() throws IOException {
@@ -34,16 +35,16 @@ public class ClientThreadTests {
         ByteArrayInputStream inputStream = new ByteArrayInputStream("".getBytes());
         MockServerSocket mockServerSocket = new MockServerSocket(outputStream, new MockSocket(outputStream, new ByteArrayInputStream("".getBytes())));
         Executor executor = Executors.newFixedThreadPool(2);
-        Parser parser = new Parser();
+        parser = new Parser();
         Boolean[] shouldRunServerBooleans = {true, false};
         mockServer = new MockChatServer(mockServerSocket, new StandardIOHandler(System.in, new PrintStream(outputStream)), executor, parser, shouldRunServerBooleans);
     }
 
     @Test
     public void setAName() throws IOException {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream("$NAME:kot".getBytes());
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("$NAME kot".getBytes());
         MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
-        clientThread = new ClientThread(mockClientSocket, mockServer);
+        clientThread = new ClientThread(mockClientSocket, mockServer, parser);
 
         clientThread.run();
 
@@ -51,10 +52,20 @@ public class ClientThreadTests {
     }
 
     @Test
-    public void returnsSocketIOHandler() throws IOException {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream("$NAME:kot".getBytes());
+    public void setNameDirectTest() throws IOException {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("$NAME kot".getBytes());
         MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
-        clientThread = new ClientThread(mockClientSocket, mockServer);
+        clientThread = new ClientThread(mockClientSocket, mockServer, parser);
+        clientThread.setClientName("test name");
+
+        assertEquals("test name", clientThread.getClientName());
+    }
+
+    @Test
+    public void returnsSocketIOHandler() throws IOException {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("$NAME kot".getBytes());
+        MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
+        clientThread = new ClientThread(mockClientSocket, mockServer, parser);
 
         clientThread.run();
 
@@ -65,18 +76,18 @@ public class ClientThreadTests {
     public void getUserNames() throws IOException {
         ByteArrayInputStream inputStream = new ByteArrayInputStream("$USERS".getBytes());
         MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
-        clientThread = new ClientThread(mockClientSocket, mockServer);
+        clientThread = new ClientThread(mockClientSocket, mockServer, parser);
 
         clientThread.run();
 
-        assertEquals("Thread-5", clientThread.getClientName());
+        assertEquals("Thread-6", clientThread.getClientName());
     }
 
     @Test
     public void getsConfirmationOfSendingMessage() throws IOException {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream("$MESSAGE & Thread-9 & hehe".getBytes());
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("$MESSAGE & Thread-10 & hehe".getBytes());
         MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
-        clientThread = new ClientThread(mockClientSocket, mockServer);
+        clientThread = new ClientThread(mockClientSocket, mockServer, parser);
         mockServer.run();
         clientThread.run();
 
@@ -87,7 +98,7 @@ public class ClientThreadTests {
     public void getsInfoOfNotSendingAMessage() throws IOException {
         ByteArrayInputStream inputStream = new ByteArrayInputStream("$MESSAGE & Thread-1 hehe".getBytes());
         MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
-        clientThread = new ClientThread(mockClientSocket, mockServer);
+        clientThread = new ClientThread(mockClientSocket, mockServer, parser);
         mockServer.run();
         clientThread.run();
 

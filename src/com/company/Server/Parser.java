@@ -10,6 +10,15 @@ public class Parser {
         return "💬  " + name + ": " + message;
     }
 
+    public String getPromptActionType(String userMessage) {
+        String[] elementsOfInput = userMessage.split(" ");
+        if (elementsOfInput[0].equals("$NAME") || elementsOfInput[0].equals("$USERS") || elementsOfInput[0].equals("$MESSAGE")) {
+            return elementsOfInput[0];
+        } else
+            return "undefined";
+    }
+
+
     public String[] parseMessage(String userInput, String userNames) {
         String[] elementsOfInput = userInput.split("&");
         ArrayList<String> trimmedElements= new ArrayList<>();

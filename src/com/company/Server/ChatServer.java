@@ -57,16 +57,16 @@ public class ChatServer {
         } else {
             String addresseeName = parsedUserInput[1];
             String userMessage = parsedUserInput[2];
-            ClientThread clientThread = getClientThread(addresseeName);
-            String finalMessage = Parser.createMessage(senderName, userMessage);
-            clientThread.getSocketIOHandler().printToSocket(finalMessage);
+            ClientThread addresseeThread = getClientThread(addresseeName);
+            String completeMessage = Parser.createMessage(senderName, userMessage);
+            addresseeThread.getSocketIOHandler().printToSocket(completeMessage);
         }
     }
 
     private void connectWithClients() throws IOException {
         Socket clientSocket = this.serverSocket.accept();
         this.standardIOHandler.printToStdOut(Messages.newClientInServer());
-        ClientThread clientThread = new ClientThread(clientSocket, this);
+        ClientThread clientThread = new ClientThread(clientSocket, this, this.parser);
         addClient(clientThread);
         executor.execute(clientThread);
     }

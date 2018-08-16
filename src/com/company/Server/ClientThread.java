@@ -1,6 +1,8 @@
 package com.company.Server;
 
 import com.company.Messages;
+import com.company.Server.PromptActions.PromptAction;
+import com.company.Server.PromptActions.PromptActionFactory;
 import com.company.SocketIOHandler;
 
 import java.io.IOException;
@@ -10,12 +12,16 @@ public class ClientThread extends Thread {
 
     private final SocketIOHandler socketIOHandler;
     private final ChatServer chatServer;
+    private final Parser parser;
+    private final PromptActionFactory promptActionFactory;
     private String clientName;
 
-    public ClientThread (Socket clientSocket, ChatServer chatServer) throws IOException {
+    public ClientThread (Socket clientSocket, ChatServer chatServer, Parser parser) throws IOException {
         this.chatServer = chatServer;
         this.clientName = this.getName();
         this.socketIOHandler = new SocketIOHandler(clientSocket);
+        this.parser = parser;
+        this.promptActionFactory = new PromptActionFactory();
     }
 
     @Override
@@ -25,7 +31,13 @@ public class ClientThread extends Thread {
             handleUserInput();
         } catch (IOException e) {
             this.socketIOHandler.printToSocket("Client cannot be successfully run.");
+        } catch (IllegalAccessException e) {
+            this.socketIOHandler.printToSocket("Client cannot be successfully run.");
         }
+    }
+
+    public ChatServer getChatServer() {
+        return this.chatServer;
     }
 
     public String getClientName() {
@@ -36,53 +48,25 @@ public class ClientThread extends Thread {
         return this.socketIOHandler;
     }
 
+    public void setClientName(String name) {
+        this.clientName = name;
+    }
+
+    public void handleUserInputCaller() throws IOException, IllegalAccessException {
+        handleUserInput();
+    }
+
     private void printInitialMessages() {
         socketIOHandler.printToSocket(Messages.informOfConnectionToServer());
         socketIOHandler.printToSocket(Messages.getPrompts());
     }
 
-    private void handleUserInput() throws IOException {
+    private void handleUserInput() throws IOException, IllegalAccessException {
         String userInput;
         while ((userInput = this.socketIOHandler.readFromSocket()) != null) {
-            if (shouldSetName(userInput)) {
-                setClientName(userInput);
-            } else if (shouldGetUsers(userInput)) {
-                getUserNames();
-            } else if (shouldSendToOtherUser(userInput)) {
-                sendToOtherUser(userInput);
-            }
-            handleUserInput();
-        }
-    }
-
-    private boolean shouldSetName(String userInput) {
-        return userInput.substring(0, Math.min(userInput.length(), 5)).equals("$NAME");
-    }
-
-    private void setClientName(String userInput) {
-        this.clientName = userInput.substring(6, userInput.length()).trim();
-        this.socketIOHandler.printToSocket("Your name was set to be " + this.clientName);
-    }
-
-    private boolean shouldGetUsers(String userInput) {
-        return userInput.substring(0, Math.min(userInput.length(), 6)).equals("$USERS");
-    }
-
-    private void getUserNames() {
-        String userNames = this.chatServer.getClientNames();
-        this.socketIOHandler.printToSocket("There are following users: " + userNames);
-    }
-
-    private boolean shouldSendToOtherUser(String userInput) {
-        return userInput.substring(0, Math.min(userInput.length(), 8)).equals("$MESSAGE");
-    }
-
-    private void sendToOtherUser(String userInput) {
-        try {
-            this.chatServer.sendMessage(userInput, this.clientName);
-            this.socketIOHandler.printToSocket("Message has been sent.");
-        } catch (IllegalAccessException e) {
-            this.socketIOHandler.printToSocket("Message not sent - invalid syntax.");
+            String promptActionType = this.parser.getPromptActionType(userInput);
+            PromptAction promptAction = this.promptActionFactory.getPromptAction(promptActionType);
+            promptAction.run(this, userInput);
         }
     }
 }
