@@ -18,7 +18,6 @@ public class Parser {
             return "undefined";
     }
 
-
     public String[] parseMessage(String userInput, String userNames) {
         String[] elementsOfInput = userInput.split("&");
         ArrayList<String> trimmedElements= new ArrayList<>();

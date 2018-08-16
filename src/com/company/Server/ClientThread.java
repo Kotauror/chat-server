@@ -50,7 +50,7 @@ public class ClientThread extends Thread {
         this.clientName = name;
     }
 
-    public void handleUserInputCaller() throws IOException, IllegalAccessException {
+    public void listenForInput() throws IOException, IllegalAccessException {
         handleUserInput();
     }
 

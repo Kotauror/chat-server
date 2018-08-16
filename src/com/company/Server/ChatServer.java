@@ -75,12 +75,12 @@ public class ChatServer {
         this.connectedClients.add(clientThread);
     }
 
-    private ClientThread getClientThread(String name) throws IllegalAccessException {
+    private ClientThread getClientThread(String name) {
         for (ClientThread clientThread : connectedClients) {
             if (clientThread.getClientName().equals(name)) {
                 return clientThread;
             }
         }
-        throw new IllegalAccessException("There is no such client under this name.");
+        return null;
     }
 }

@@ -8,6 +8,6 @@ public class NotSpecifiedAction extends PromptAction {
 
     @Override
     public void run(ClientThread clientThread, String userInput) throws IOException, IllegalAccessException {
-        clientThread.handleUserInputCaller();
+        clientThread.listenForInput();
     }
 }
