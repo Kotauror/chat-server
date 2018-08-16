@@ -19,4 +19,8 @@ public class Room {
     public ArrayList getUsersOfRoom() {
         return this.usersOfRoom;
     }
+
+    public void addClientToRoom(ClientThread clientThread) {
+        this.usersOfRoom.add(clientThread);
+    }
 }
