@@ -42,18 +42,6 @@ public class ChatServer {
         return true;
     }
 
-    private void connectWithClients() throws IOException {
-        Socket clientSocket = this.serverSocket.accept();
-        this.standardIOHandler.printToStdOut(Messages.newClientInServer());
-        ClientThread clientThread = new ClientThread(clientSocket, this);
-        addClient(clientThread);
-        executor.execute(clientThread);
-    }
-
-    private void addClient(ClientThread clientThread) {
-        this.connectedClients.add(clientThread);
-    }
-
     public String getClientNames() {
         StringBuilder name = new StringBuilder();
         for (ClientThread clientThread : this.connectedClients) {
@@ -72,6 +60,18 @@ public class ChatServer {
             ClientThread clientThread = getClientThread(userName);
             clientThread.getSocketIOHandler().printToSocket(userMessage);
         }
+    }
+
+    private void connectWithClients() throws IOException {
+        Socket clientSocket = this.serverSocket.accept();
+        this.standardIOHandler.printToStdOut(Messages.newClientInServer());
+        ClientThread clientThread = new ClientThread(clientSocket, this);
+        addClient(clientThread);
+        executor.execute(clientThread);
+    }
+
+    private void addClient(ClientThread clientThread) {
+        this.connectedClients.add(clientThread);
     }
 
     private ClientThread getClientThread(String name) throws IllegalAccessException {

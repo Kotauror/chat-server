@@ -16,10 +16,6 @@ public abstract class Messages {
         return "A new socket has been connected";
     }
 
-    public static String informOfException(int portNumber) {
-        return "Exception caught when trying to listen on port: " + portNumber;
-    }
-
     public static String printServerPort(int portNumber) {
         return "Listening on port " + portNumber;
     }
