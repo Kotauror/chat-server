@@ -19,4 +19,10 @@ public class RoomTests {
     public void getRoomName() {
         assertEquals("test room", room.getRoomName());
     }
+
+    @Test
+    public void usersOfRoomInitiallyEmpty() {
+        assertEquals(0, room.getUsersOfRoom().size());
+    }
+
 }

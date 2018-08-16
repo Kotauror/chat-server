@@ -12,6 +12,7 @@ import java.util.concurrent.Executor;
 public class ChatServer {
 
     private final Parser parser;
+    private final ArrayList<Room> rooms;
     private ArrayList<ClientThread> connectedClients;
     private int portNumber;
     private ServerSocket serverSocket;
@@ -23,8 +24,9 @@ public class ChatServer {
         this.serverSocket = serverSocket;
         this.standardIOHandler = standardIOHandler;
         this.portNumber = this.serverSocket.getLocalPort();
-        this.connectedClients = new ArrayList<>();
         this.parser = parser;
+        this.connectedClients = new ArrayList<>();
+        this.rooms = new ArrayList<>();
     }
 
     public void run() {
