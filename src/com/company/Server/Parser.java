@@ -31,6 +31,10 @@ public class Parser {
         }
     }
 
+    public String getNameOfRoom(String userInput) {
+        return userInput.substring(8, userInput.length()).trim();
+    }
+
     private boolean allElementsPresent(ArrayList trimmedElements) {
         return trimmedElements.size() == 3;
     }

@@ -50,4 +50,9 @@ public class ParserTests {
     public void createMessage() {
         assertEquals("💬  user: message", parser.createMessage("user", "message"));
     }
+
+    @Test
+    public void getNameOfRoom() {
+        assertEquals("kotek", parser.getNameOfRoom("$NEWROOM kotek"));
+    }
 }

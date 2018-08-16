@@ -6,6 +6,7 @@ import Mocks.MockServerSocketTwoClients;
 import Mocks.MockSocket;
 import com.company.Server.CurrentThreadExecutor;
 import com.company.Server.Parser;
+import com.company.Server.Room;
 import com.company.StandardIOHandler;
 import org.junit.Before;
 import org.junit.Test;
@@ -112,4 +113,22 @@ public class ChatServerTest {
                 "💬  Thread-13: Hello\n" +
                 "Message has been sent.", mockOutputStreamClientOne.toString().trim());
     }
+
+    @Test
+    public void createNewRoom() throws IllegalAccessException {
+        mockServer.createNewRoom("$NEWROOM kotek");
+        Room room = (Room) mockServer.getRooms().get(0);
+        String roomName = room.getRoomName();
+
+        assertEquals("kotek", roomName);
+    }
+
+    @Test
+    public void tellNamesOfRooms() throws IllegalAccessException {
+        mockServer.createNewRoom("$NEWROOM kotek");
+        mockServer.createNewRoom("$NEWROOM piesek");
+
+        assertEquals("kotek piesek ", mockServer.getRoomsNames());
+    }
+
 }

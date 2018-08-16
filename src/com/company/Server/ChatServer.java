@@ -52,6 +52,18 @@ public class ChatServer {
         return name.toString();
     }
 
+    public String getRoomsNames() {
+        StringBuilder name = new StringBuilder();
+        for (Room room : this.rooms) {
+            name.append(room.getRoomName()).append(" ");
+        }
+        return name.toString();
+    }
+
+    public ArrayList getRooms() {
+        return this.rooms;
+    }
+
     public void sendMessage(String userInput, String senderName) throws IllegalAccessException {
         String[] parsedUserInput = this.parser.parseMessage(userInput, this.getClientNames());
         if (parsedUserInput[0].equals("error")) {
@@ -62,6 +74,15 @@ public class ChatServer {
             ClientThread addresseeThread = getClientThread(addresseeName);
             String completeMessage = Parser.createMessage(senderName, userMessage);
             addresseeThread.getSocketIOHandler().printToSocket(completeMessage);
+        }
+    }
+
+    public void createNewRoom(String userInput) throws IllegalAccessException {
+        String nameOfRoom = this.parser.getNameOfRoom(userInput);
+        if (nameOfRoom.length() == 0) {
+            throw new IllegalAccessException();
+        } else {
+            this.rooms.add(new Room(nameOfRoom));
         }
     }
 
