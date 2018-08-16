@@ -53,6 +53,6 @@ public class ParserTests {
 
     @Test
     public void getNameOfRoom() {
-        assertEquals("kotek", parser.getNameOfRoom("$NEWROOM kotek"));
+        assertEquals("kotek", parser.getNameOfRoom("$NEW_ROOM kotek"));
     }
 }

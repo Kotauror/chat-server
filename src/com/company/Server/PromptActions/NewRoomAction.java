@@ -10,7 +10,7 @@ public class NewRoomAction extends PromptAction {
     public void run(ClientThread clientThread, String userInput) throws IOException, IllegalAccessException {
         try {
             clientThread.getChatServer().createNewRoom(userInput);
-            clientThread.getSocketIOHandler().printToSocket("New Room has been creates");
+            clientThread.getSocketIOHandler().printToSocket("New Room has been created");
         } catch (IllegalAccessException e) {
             clientThread.getSocketIOHandler().printToSocket("Failure in creating a new room");
         }

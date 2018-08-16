@@ -27,5 +27,6 @@ public class PromptActionFactory {
         promptActions.put(PromptName.USERS, new ShowUsersAction());
         promptActions.put(PromptName.MESSAGE, new SendMessageAction());
         promptActions.put(PromptName.NEW_ROOM, new NewRoomAction());
+        promptActions.put(PromptName.SHOW_ROOMS, new ShowRoomsAction());
     }
 }

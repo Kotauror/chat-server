@@ -53,7 +53,7 @@ public class ChatServerTest {
     public void returnsNamesOfClients() {
         mockServer.run();
 
-        assertEquals("Thread-16 ", mockServer.getClientNames());
+        assertEquals("Thread-22 ", mockServer.getClientNames());
     }
 
     @Test(expected= IllegalAccessException.class)
@@ -65,7 +65,7 @@ public class ChatServerTest {
     public void messageIsSend() throws IllegalAccessException, IOException {
         // Client 1
         ByteArrayOutputStream mockOutputStreamClientOne = new ByteArrayOutputStream();
-        ByteArrayInputStream mockInputStreamClientOne = new ByteArrayInputStream("$MESSAGE & Thread-13 & Hello".getBytes());
+        ByteArrayInputStream mockInputStreamClientOne = new ByteArrayInputStream("$MESSAGE & Thread-19 & Hello".getBytes());
         MockSocket mockSocketOne = new MockSocket(mockOutputStreamClientOne, mockInputStreamClientOne);
 
         // Client 2
@@ -78,7 +78,7 @@ public class ChatServerTest {
         MockServerSocketTwoClients mockServerSocketTwoClients = new MockServerSocketTwoClients(mockServerOutput, mockSocketOne, mockSocketTwo);
 
         // Server StandardIOHandler
-        ByteArrayInputStream mockUserInput = new ByteArrayInputStream("$MESSAGE & Thread-13 & Hello".getBytes());
+        ByteArrayInputStream mockUserInput = new ByteArrayInputStream("$MESSAGE & Thread-19 & Hello".getBytes());
         mockUserOutput = new ByteArrayOutputStream();
         PrintStream mockSystemOut = new PrintStream(mockUserOutput);
         StandardIOHandler standardIOHandler = new StandardIOHandler(mockUserInput, mockSystemOut);
@@ -92,7 +92,8 @@ public class ChatServerTest {
         mockServer = new MockChatServer(mockServerSocketTwoClients, standardIOHandler, executor, parser, shouldRunServerBooleans);
 
         mockServer.run();
-        mockServer.sendMessage("$MESSAGE & Thread-14 & Hello", "Thread-13");
+
+        mockServer.sendMessage("$MESSAGE & Thread-20 & Hello", "Thread-19");
 
         // Client one perspective
         assertEquals("Connected to a server\n" +
@@ -100,8 +101,10 @@ public class ChatServerTest {
                 "> To set your username, type $NAME username\n" +
                 "> To see the list od users, type $USERS\n" +
                 "> To send a message type $MESSAGE & UserNameOfAddressee & your message\n" +
+                "> To create a new chat room type $NEW_ROOM roomName\n" +
+                "> To see a list of names, type $ROOMS\n" +
                 "----------------------------------\n\n" +
-                "💬  Thread-13: Hello", mockOutputStreamClientTwo.toString().trim());
+                "💬  Thread-19: Hello", mockOutputStreamClientTwo.toString().trim());
 
         // Client two perspective
         assertEquals("Connected to a server\n" +
@@ -109,8 +112,10 @@ public class ChatServerTest {
                 "> To set your username, type $NAME username\n" +
                 "> To see the list od users, type $USERS\n" +
                 "> To send a message type $MESSAGE & UserNameOfAddressee & your message\n" +
+                "> To create a new chat room type $NEW_ROOM roomName\n" +
+                "> To see a list of names, type $ROOMS\n" +
                 "----------------------------------\n\n" +
-                "💬  Thread-13: Hello\n" +
+                "💬  Thread-19: Hello\n" +
                 "Message has been sent.", mockOutputStreamClientOne.toString().trim());
     }
 

@@ -80,12 +80,12 @@ public class ClientThreadTests {
 
         clientThread.run();
 
-        assertEquals("Thread-6", clientThread.getClientName());
+        assertEquals("Thread-8", clientThread.getClientName());
     }
 
     @Test
     public void getsConfirmationOfSendingMessage() throws IOException {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream("$MESSAGE & Thread-10 & hehe".getBytes());
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("$MESSAGE & Thread-14 & hehe".getBytes());
         MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
         clientThread = new ClientThread(mockClientSocket, mockServer, parser);
         mockServer.run();
@@ -103,5 +103,41 @@ public class ClientThreadTests {
         clientThread.run();
 
         assertTrue(outputStream.toString().contains("Message not sent - invalid syntax."));
+    }
+
+    @Test
+    public void userLearnsAboutCreatingARoom() throws IOException, IllegalAccessException {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("$NEW_ROOM kotek".getBytes());
+        MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
+        clientThread = new ClientThread(mockClientSocket, mockServer, parser);
+
+        mockServer.run();
+        clientThread.run();
+
+        assertTrue(outputStream.toString().contains("New Room has been created"));
+    }
+
+    @Test
+    public void userLearnsAboutNotCreatingARoom() throws IOException, IllegalAccessException {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("$NEW_ROOM".getBytes());
+        MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
+        clientThread = new ClientThread(mockClientSocket, mockServer, parser);
+
+        mockServer.run();
+        clientThread.run();
+
+        assertTrue(outputStream.toString().contains("Failure in creating a new room"));
+    }
+
+    @Test
+    public void userAsksForAvailableRooms() throws IOException, IllegalAccessException {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("$ROOMS".getBytes());
+        MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
+        clientThread = new ClientThread(mockClientSocket, mockServer, parser);
+
+        mockServer.run();
+        clientThread.run();
+
+        assertTrue(outputStream.toString().contains("There are following rooms: "));
     }
 }
