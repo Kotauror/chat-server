@@ -79,7 +79,7 @@ public class ClientThread extends Thread {
 
     private void sendToOtherUser(String userInput) {
         try {
-            this.chatServer.sendMessage(userInput);
+            this.chatServer.sendMessage(userInput, this.clientName);
             this.socketIOHandler.printToSocket("Message has been sent.");
         } catch (IllegalAccessException e) {
             this.socketIOHandler.printToSocket("Message not sent - invalid syntax.");

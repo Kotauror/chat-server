@@ -6,6 +6,10 @@ public class Parser {
 
     public Parser(){}
 
+    public static String createMessage(String name, String message) {
+        return "💬  " + name + ": " + message;
+    }
+
     public String[] parseMessage(String userInput, String userNames) {
         String[] elementsOfInput = userInput.split("&");
         ArrayList<String> trimmedElements= new ArrayList<>();

@@ -57,7 +57,7 @@ public class ChatServerTest {
 
     @Test(expected= IllegalAccessException.class)
     public void sendMessageThrowsErrorOnInvalidMessage() throws IllegalAccessException {
-        mockServer.sendMessage("test invalid string");
+        mockServer.sendMessage("admin", "test invalid string");
     }
 
     @Test
@@ -89,10 +89,12 @@ public class ChatServerTest {
         mockServer.run();
 
         assertEquals("Connected to a server\n" +
-                "To set your username, type $NAME: and your username after colon\n" +
-                "To see the list od users, type $USERS\n" +
-                "To send a message type $MESSAGE & UserNameOfAddressee & Here goes your message\n" +
-                "Hello\n" +
+                        "---------- INSTRUCTIONS ----------\n" +
+                "> To set your username, type $NAME: and your username after colon\n" +
+                "> To see the list od users, type $USERS\n" +
+                "> To send a message type $MESSAGE & UserNameOfAddressee & your message\n" +
+                "----------------------------------\n\n" +
+                "💬  Thread-14: Hello\n" +
                 "Message has been sent.", mockOutputStreamClientOne.toString().trim());
     }
 }

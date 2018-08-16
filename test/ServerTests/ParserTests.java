@@ -2,13 +2,22 @@ package ServerTests;
 
 import com.company.Server.Parser;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ParserTests {
 
+    private Parser parser;
+
+    @Before
+    public void setup() {
+        parser = new Parser();
+    }
+
     @Test
     public void parseMessageOnValidInput() {
-        Parser parser = new Parser();
         String[] words = new String[3];
         words[0] = "$MESSAGE";
         words[1] = "kot";
@@ -18,7 +27,6 @@ public class ParserTests {
 
     @Test
     public void parseMessageOnInvalidInput_NoUser() {
-        Parser parser = new Parser();
         String[] words = new String[1];
         words[0] = "error";
         Assert.assertArrayEquals(words, parser.parseMessage("$MESSAGE & kot & hehehhe lololol", "mis pies"));
@@ -26,7 +34,6 @@ public class ParserTests {
 
     @Test
     public void parseMessageOnInvalidInput_WronglyUsedFirstAnd() {
-        Parser parser = new Parser();
         String[] words = new String[1];
         words[0] = "error";
         Assert.assertArrayEquals(words, parser.parseMessage("$MESSAGE  kot & hehehhe lololol", "mis pies"));
@@ -34,10 +41,13 @@ public class ParserTests {
 
     @Test
     public void parseMessageOnInvalidInput_WronglyUsedSecondAnd() {
-        Parser parser = new Parser();
         String[] words = new String[1];
         words[0] = "error";
         Assert.assertArrayEquals(words, parser.parseMessage("$MESSAGE & kot hehehhe lololol", "mis pies"));
     }
 
+    @Test
+    public void createMessage() {
+        assertEquals("💬  user: message", parser.createMessage("user", "message"));
+    }
 }
