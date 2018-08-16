@@ -28,7 +28,7 @@ public class ChatServerTest {
         ByteArrayInputStream mockInputStream = new ByteArrayInputStream("test String".getBytes());
         MockSocket mockSocket = new MockSocket(mockOutputStream, mockInputStream);
 
-        mockServerSocket = new MockServerSocket(mockInputStream, mockOutputStream, mockSocket);
+        mockServerSocket = new MockServerSocket(mockOutputStream, mockSocket);
 
         ByteArrayInputStream mockUserInput = new ByteArrayInputStream("test String".getBytes());
         mockUserOutput = new ByteArrayOutputStream();
@@ -37,7 +37,8 @@ public class ChatServerTest {
 
         Executor executor = new CurrentThreadExecutor();
         Parser parser = new Parser();
-        mockServer = new MockChatServer(mockServerSocket, standardIOHandler, executor, parser);
+        Boolean[] shouldRunServerBooleans = {true, false};
+        mockServer = new MockChatServer(mockServerSocket, standardIOHandler, executor, parser, shouldRunServerBooleans);
     }
 
     @Test
@@ -63,30 +64,35 @@ public class ChatServerTest {
     public void messageIsSendToSocket() throws IOException {
         // Client 1
         ByteArrayOutputStream mockOutputStreamClientOne = new ByteArrayOutputStream();
-        ByteArrayInputStream mockInputStreamClientOne = new ByteArrayInputStream("$MESSAGE & Thread-0 & Hello".getBytes());
+        ByteArrayInputStream mockInputStreamClientOne = new ByteArrayInputStream("$MESSAGE & Thread-14 & Hello".getBytes());
         MockSocket mockSocketOne = new MockSocket(mockOutputStreamClientOne, mockInputStreamClientOne);
 
         // Client 2
         ByteArrayOutputStream mockOutputStreamClientTwo = new ByteArrayOutputStream();
-        ByteArrayInputStream mockInputStreamClientTwo = new ByteArrayInputStream("$MESSAGE & Thread-0 & Hello".getBytes());
+        ByteArrayInputStream mockInputStreamClientTwo = new ByteArrayInputStream("".getBytes());
         MockSocket mockSocketTwo = new MockSocket(mockOutputStreamClientTwo, mockInputStreamClientTwo);
 
         // ServerSocket
-        MockServerSocketTwoClients mockServerSocketTwoClients = new MockServerSocketTwoClients(new ByteArrayInputStream("$MESSAGE & Thread-0 & Hello".getBytes()), mockOutputStream, mockSocketOne, mockSocketTwo);
+        ByteArrayOutputStream mockServerOutput = new ByteArrayOutputStream();
+        MockServerSocketTwoClients mockServerSocketTwoClients = new MockServerSocketTwoClients(mockServerOutput, mockSocketOne, mockSocketTwo);
 
-        ByteArrayInputStream mockUserInput = new ByteArrayInputStream("".getBytes());
+        ByteArrayInputStream mockUserInput = new ByteArrayInputStream("$MESSAGE & Thread-14 & Hello".getBytes());
         mockUserOutput = new ByteArrayOutputStream();
         PrintStream mockSystemOut = new PrintStream(mockUserOutput);
         StandardIOHandler standardIOHandler = new StandardIOHandler(mockUserInput, mockSystemOut);
 
         Executor executor = new CurrentThreadExecutor();
-
         Parser parser = new Parser();
-
-        mockServer = new MockChatServer(mockServerSocketTwoClients, standardIOHandler, executor, parser);
+        Boolean[] shouldRunServerBooleans = {true, true, false};
+        mockServer = new MockChatServer(mockServerSocketTwoClients, standardIOHandler, executor, parser, shouldRunServerBooleans);
 
         mockServer.run();
 
-        assertEquals("$MESSAGE & Thread-0 & Hello", new BufferedReader(new InputStreamReader(mockSocketTwo.getInputStream())).readLine());
+        assertEquals("Connected to a server\n" +
+                "To set your username, type $NAME: and your username after colon\n" +
+                "To see the list od users, type $USERS\n" +
+                "To send a message type $MESSAGE & UserNameOfAddressee & Here goes your message\n" +
+                "Hello\n" +
+                "Message has been sent.", mockOutputStreamClientOne.toString().trim());
     }
 }

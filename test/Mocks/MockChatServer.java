@@ -13,15 +13,16 @@ public class MockChatServer extends ChatServer {
 
     private ArrayList runServerBooleans;
 
-    public MockChatServer(ServerSocket serverSocket, StandardIOHandler standardIOHandler, Executor executor, Parser parser) {
+    public MockChatServer(ServerSocket serverSocket, StandardIOHandler standardIOHandler, Executor executor, Parser parser, Boolean[] shouldRunServerBooleans) {
         super(serverSocket, standardIOHandler, executor, parser);
         this.runServerBooleans = new ArrayList<Boolean>();
-        fillBooleans(true, false);
+        fillBooleans(shouldRunServerBooleans);
     }
     
-    private void fillBooleans(boolean runServer, boolean stopServer) {
-        Collections.addAll(this.runServerBooleans, runServer);
-        Collections.addAll(this.runServerBooleans, stopServer);
+    private void fillBooleans(Boolean[] shouldRunServerBooleans) {
+        for (Boolean shouldRunServerBoolean : shouldRunServerBooleans) {
+            Collections.addAll(this.runServerBooleans, shouldRunServerBoolean);
+        }
     }
 
     public boolean runServer() {

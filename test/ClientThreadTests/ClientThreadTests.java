@@ -32,10 +32,11 @@ public class ClientThreadTests {
     public void setup() throws IOException {
         outputStream = new ByteArrayOutputStream();
         ByteArrayInputStream inputStream = new ByteArrayInputStream("".getBytes());
-        MockServerSocket mockServerSocket = new MockServerSocket(inputStream, outputStream, new MockSocket(outputStream, new ByteArrayInputStream("".getBytes())));
+        MockServerSocket mockServerSocket = new MockServerSocket(outputStream, new MockSocket(outputStream, new ByteArrayInputStream("".getBytes())));
         Executor executor = Executors.newFixedThreadPool(2);
         Parser parser = new Parser();
-        mockServer = new MockChatServer(mockServerSocket, new StandardIOHandler(System.in, new PrintStream(outputStream)), executor, parser);
+        Boolean[] shouldRunServerBooleans = {true, false};
+        mockServer = new MockChatServer(mockServerSocket, new StandardIOHandler(System.in, new PrintStream(outputStream)), executor, parser, shouldRunServerBooleans);
     }
 
     @Test
