@@ -4,7 +4,9 @@ public enum PromptName {
 
     SET_NAME("$NAME"),
     USERS("$USERS"),
-    MESSAGE("$MESSAGE");
+    MESSAGE("$MESSAGE"),
+    NEW_ROOM("$NEW_ROOM"),
+    SHOW_ROOMS("$ROOMS");
 
     private final String value;
 

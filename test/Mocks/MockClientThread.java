@@ -8,7 +8,8 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class MockClientThread extends ClientThread {
-    public MockClientThread(MockSocket clientSocket, ChatServer chatServer, Parser parser) throws IOException {
+
+    public MockClientThread(Socket clientSocket, ChatServer chatServer, Parser parser) throws IOException {
         super(clientSocket, chatServer, parser);
     }
 

@@ -1,10 +1,14 @@
 package com.company.Server;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Parser {
 
     public Parser(){}
+
+    static List<String> prompts = Arrays.asList("$NAME", "$USERS", "$MESSAGE", "$NEW_ROOM", "$ROOMS");
 
     public static String createMessage(String name, String message) {
         return "💬  " + name + ": " + message;
@@ -12,7 +16,7 @@ public class Parser {
 
     public String getPromptActionType(String userMessage) {
         String[] elementsOfInput = userMessage.split(" ");
-        if (elementsOfInput[0].equals("$NAME") || elementsOfInput[0].equals("$USERS") || elementsOfInput[0].equals("$MESSAGE")) {
+         if (prompts.contains(elementsOfInput[0])) {
             return elementsOfInput[0];
         } else
             return "undefined";
@@ -29,6 +33,10 @@ public class Parser {
         } else {
             return new String[]{"error"};
         }
+    }
+
+    public String getNameOfRoom(String userInput) {
+        return userInput.substring(9, userInput.length()).trim();
     }
 
     private boolean allElementsPresent(ArrayList trimmedElements) {

@@ -12,6 +12,7 @@ import java.util.concurrent.Executor;
 public class ChatServer {
 
     private final Parser parser;
+    private final ArrayList<Room> rooms;
     private ArrayList<ClientThread> connectedClients;
     private int portNumber;
     private ServerSocket serverSocket;
@@ -23,8 +24,9 @@ public class ChatServer {
         this.serverSocket = serverSocket;
         this.standardIOHandler = standardIOHandler;
         this.portNumber = this.serverSocket.getLocalPort();
-        this.connectedClients = new ArrayList<>();
         this.parser = parser;
+        this.connectedClients = new ArrayList<>();
+        this.rooms = new ArrayList<>();
     }
 
     public void run() {
@@ -50,6 +52,18 @@ public class ChatServer {
         return name.toString();
     }
 
+    public String getRoomsNames() {
+        StringBuilder name = new StringBuilder();
+        for (Room room : this.rooms) {
+            name.append(room.getRoomName()).append(" ");
+        }
+        return name.toString();
+    }
+
+    public ArrayList getRooms() {
+        return this.rooms;
+    }
+
     public void sendMessage(String userInput, String senderName) throws IllegalAccessException {
         String[] parsedUserInput = this.parser.parseMessage(userInput, this.getClientNames());
         if (parsedUserInput[0].equals("error")) {
@@ -60,6 +74,24 @@ public class ChatServer {
             ClientThread addresseeThread = getClientThread(addresseeName);
             String completeMessage = Parser.createMessage(senderName, userMessage);
             addresseeThread.getSocketIOHandler().printToSocket(completeMessage);
+        }
+    }
+
+    public void createNewRoom(String userInput) throws IllegalAccessException {
+        String nameOfRoom = this.parser.getNameOfRoom(userInput);
+        if (nameOfRoom.length() == 0) {
+            throw new IllegalAccessException();
+        } else {
+            this.rooms.add(new Room(nameOfRoom));
+        }
+    }
+
+    public void addClientToRoom(ClientThread clientThread, String roomName) throws IllegalAccessException {
+        Room room = this.getRoom(roomName);
+        if (room == null) {
+            throw new IllegalAccessException();
+        } else {
+            room.addClientToRoom(clientThread);
         }
     }
 
@@ -79,6 +111,15 @@ public class ChatServer {
         for (ClientThread clientThread : connectedClients) {
             if (clientThread.getClientName().equals(name)) {
                 return clientThread;
+            }
+        }
+        return null;
+    }
+
+    private Room getRoom(String name) {
+        for (Room room : rooms) {
+            if (room.getRoomName().equals(name)) {
+                return room;
             }
         }
         return null;
