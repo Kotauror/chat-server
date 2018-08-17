@@ -4,7 +4,6 @@ import Mocks.MockChatServer;
 import Mocks.MockClientThread;
 import Mocks.MockServerSocket;
 import Mocks.MockSocket;
-import com.company.Server.ClientThread;
 import com.company.Server.CurrentThreadExecutor;
 import com.company.Server.Parser;
 import com.company.Server.Room;

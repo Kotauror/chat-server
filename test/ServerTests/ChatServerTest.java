@@ -4,6 +4,7 @@ import Mocks.MockChatServer;
 import Mocks.MockServerSocket;
 import Mocks.MockServerSocketTwoClients;
 import Mocks.MockSocket;
+import com.company.Server.ClientThread;
 import com.company.Server.CurrentThreadExecutor;
 import com.company.Server.Parser;
 import com.company.Server.Room;
@@ -22,6 +23,7 @@ public class ChatServerTest {
     private MockChatServer mockServer;
     private ByteArrayOutputStream mockUserOutput;
     private MockServerSocket mockServerSocket;
+    private Parser parser;
 
     @Before
     public void setup() throws IOException {
@@ -85,7 +87,7 @@ public class ChatServerTest {
 
         // Various Server dependencies
         Executor executor = new CurrentThreadExecutor();
-        Parser parser = new Parser();
+        parser = new Parser();
         Boolean[] shouldRunServerBooleans = {true, true, false};
 
         // Complete Server
@@ -134,5 +136,21 @@ public class ChatServerTest {
         mockServer.createNewRoom("$NEWROOM piesek");
 
         assertEquals("kotek piesek ", mockServer.getRoomsNames());
+    }
+
+    @Test
+    public void addClientToRoom() throws IllegalAccessException, IOException {
+        // ClientThread
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("$ROOMS".getBytes());
+        MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
+        ClientThread clientThread = new ClientThread(mockClientSocket, mockServer, parser);
+
+        mockServer.createNewRoom("$NEWROOM piesek");
+        mockServer.addClientToRoom(clientThread, "piesek");
+
+        Room room = (Room) mockServer.getRooms().get(0);
+
+        assertEquals(clientThread, room.getUsersOfRoom().get(0));
     }
 }
