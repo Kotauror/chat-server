@@ -20,16 +20,17 @@ public class ChatClientTests {
 
     @Before
     public void setup() throws IOException {
+        // SocketIO
         mockSocketOutputStream = new ByteArrayOutputStream();
         ByteArrayInputStream mockSocketInputStream = new ByteArrayInputStream("test".getBytes());
         MockSocket mockClientSocket = new MockSocket(mockSocketOutputStream, mockSocketInputStream);
+        SocketIOHandler clientSocketIOHandler = new SocketIOHandler(mockClientSocket);
 
+        // StandardIO
         ByteArrayInputStream mockUserInput = new ByteArrayInputStream("hello".getBytes());
         mockUserOutput = new ByteArrayOutputStream();
         PrintStream mockSystemOut = new PrintStream(mockUserOutput);
-
         StandardIOHandler standardIOHandler = new StandardIOHandler(mockUserInput, mockSystemOut);
-        SocketIOHandler clientSocketIOHandler = new SocketIOHandler(mockClientSocket);
 
         CurrentThreadExecutor currentThreadExecutor = new CurrentThreadExecutor();
 

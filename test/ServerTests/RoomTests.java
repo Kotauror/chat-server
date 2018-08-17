@@ -33,14 +33,10 @@ public class RoomTests {
 
         // Server
         MockServerSocket mockServerSocket = new MockServerSocket(mockOutputStreamClientOne, mockSocketOne);
-        ByteArrayInputStream mockUserInput = new ByteArrayInputStream("test String".getBytes());
-        ByteArrayOutputStream mockUserOutput = new ByteArrayOutputStream();
-        PrintStream mockSystemOut = new PrintStream(mockUserOutput);
-        StandardIOHandler standardIOHandler = new StandardIOHandler(mockUserInput, mockSystemOut);
+        StandardIOHandler standardIOHandler = createServerStandardIOHandler("test string");
         Executor executor = new CurrentThreadExecutor();
         Parser parser = new Parser();
         Boolean[] shouldRunServerBooleans = {true, false};
-
         MockChatServer mockServer = new MockChatServer(mockServerSocket, standardIOHandler, executor, parser, shouldRunServerBooleans);
 
         // ClientThread
@@ -64,5 +60,12 @@ public class RoomTests {
         room.addClientToRoom(mockClientThread);
 
         assertEquals(mockClientThread, room.getUsersOfRoom().get(0));
+    }
+
+    private StandardIOHandler createServerStandardIOHandler(String input) {
+        ByteArrayInputStream mockUserInput = new ByteArrayInputStream(input.getBytes());
+        ByteArrayOutputStream mockUserOutput = new ByteArrayOutputStream();
+        PrintStream mockSystemOut = new PrintStream(mockUserOutput);
+        return new StandardIOHandler(mockUserInput, mockSystemOut);
     }
 }
