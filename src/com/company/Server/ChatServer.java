@@ -106,4 +106,13 @@ public class ChatServer {
         }
         return null;
     }
+
+    private Room getRoom(String name) {
+        for (Room room : rooms) {
+            if (room.getRoomName().equals(name)) {
+                return room;
+            }
+        }
+        return null;
+    }
 }

@@ -102,7 +102,7 @@ public class ChatServerTest {
                 "> To see the list od users, type $USERS\n" +
                 "> To send a message type $MESSAGE & UserNameOfAddressee & your message\n" +
                 "> To create a new chat room type $NEW_ROOM roomName\n" +
-                "> To see a list of names, type $ROOMS\n" +
+                "> To see a list of rooms, type $ROOMS\n" +
                 "----------------------------------\n\n" +
                 "💬  Thread-19: Hello", mockOutputStreamClientTwo.toString().trim());
 
@@ -113,7 +113,7 @@ public class ChatServerTest {
                 "> To see the list od users, type $USERS\n" +
                 "> To send a message type $MESSAGE & UserNameOfAddressee & your message\n" +
                 "> To create a new chat room type $NEW_ROOM roomName\n" +
-                "> To see a list of names, type $ROOMS\n" +
+                "> To see a list of rooms, type $ROOMS\n" +
                 "----------------------------------\n\n" +
                 "💬  Thread-19: Hello\n" +
                 "Message has been sent.", mockOutputStreamClientOne.toString().trim());
@@ -135,5 +135,4 @@ public class ChatServerTest {
 
         assertEquals("kotek piesek ", mockServer.getRoomsNames());
     }
-
 }

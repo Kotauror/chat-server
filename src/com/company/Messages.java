@@ -8,7 +8,7 @@ public abstract class Messages {
                 "> To see the list od users, type $USERS\n" +
                 "> To send a message type $MESSAGE & UserNameOfAddressee & your message\n" +
                 "> To create a new chat room type $NEW_ROOM roomName\n" +
-                "> To see a list of names, type $ROOMS\n" +
+                "> To see a list of rooms, type $ROOMS\n" +
                 "----------------------------------\n";
     }
 
