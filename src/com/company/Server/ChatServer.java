@@ -87,10 +87,10 @@ public class ChatServer {
     }
 
     public void addClientToRoom(ClientThread clientThread, String roomName) throws IllegalAccessException {
-        if (this.getRoom(roomName) == null) {
+        Room room = this.getRoom(roomName);
+        if (room == null) {
             throw new IllegalAccessException();
         } else {
-            Room room = this.getRoom(roomName);
             room.addClientToRoom(clientThread);
         }
     }
