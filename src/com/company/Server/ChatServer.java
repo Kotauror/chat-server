@@ -86,6 +86,15 @@ public class ChatServer {
         }
     }
 
+    public void addClientToRoom(ClientThread clientThread, String roomName) throws IllegalAccessException {
+        if (this.getRoom(roomName) == null) {
+            throw new IllegalAccessException();
+        } else {
+            Room room = this.getRoom(roomName);
+            room.addClientToRoom(clientThread);
+        }
+    }
+
     private void connectWithClients() throws IOException {
         Socket clientSocket = this.serverSocket.accept();
         this.standardIOHandler.printToStdOut(Messages.newClientInServer());

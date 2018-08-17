@@ -51,13 +51,6 @@ public class ChatServerTest {
         assertEquals("Listening on port -1\nA new socket has been connected", mockUserOutput.toString().trim());
     }
 
-    @Test
-    public void returnsNamesOfClients() {
-        mockServer.run();
-
-        assertEquals("Thread-22 ", mockServer.getClientNames());
-    }
-
     @Test(expected= IllegalAccessException.class)
     public void sendMessageThrowsErrorOnInvalidMessage() throws IllegalAccessException {
         mockServer.sendMessage("admin", "test invalid string");
@@ -152,5 +145,17 @@ public class ChatServerTest {
         Room room = (Room) mockServer.getRooms().get(0);
 
         assertEquals(clientThread, room.getUsersOfRoom().get(0));
+    }
+
+    @Test(expected= IllegalAccessException.class)
+    public void throwsErrorWhenThereIsNoRoomToJoin() throws IllegalAccessException, IOException {
+        // ClientThread
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("$ROOMS".getBytes());
+        MockSocket mockClientSocket = new MockSocket(outputStream, inputStream);
+        ClientThread clientThread = new ClientThread(mockClientSocket, mockServer, parser);
+
+        mockServer.createNewRoom("$NEWROOM piesek");
+        mockServer.addClientToRoom(clientThread, "teeeest");
     }
 }
